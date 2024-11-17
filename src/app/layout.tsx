@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
-import "./globals.css";
+// import "../styles/reset.scss";
+import "../styles/global.scss";
+import "../styles/bs-utility.scss";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+
 import MainLayout from "@/components/common/MainLayout";
 
 export const metadata: Metadata = {
@@ -13,9 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html lang="en">
       <body>
-        <MainLayout>{children}</MainLayout>
+        <ClerkProvider>
+          <MainLayout>{children}</MainLayout>
+        </ClerkProvider>
       </body>
     </html>
   );
