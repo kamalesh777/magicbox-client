@@ -15,12 +15,8 @@ export default function MainLayout(props: { children: React.ReactNode }) {
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <Provider store={store}>
             <ThemeWrapper>
-              <Container>
-                <Grid2 container spacing={2}>
                   {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                   {props.children}
-                </Grid2>
-              </Container>
             </ThemeWrapper>
           </Provider>
         </AppRouterCacheProvider>
