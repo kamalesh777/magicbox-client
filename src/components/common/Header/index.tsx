@@ -1,11 +1,14 @@
-import { useAuth } from '@clerk/nextjs';
+import { RootState } from "@/store";
+import { useAuth } from "@clerk/nextjs";
 import { Button, Grid2, Container } from "@mui/material";
-import React from 'react'
+import React from "react";
+import { useSelector } from "react-redux";
 
 const HeaderComp = () => {
-  const {signOut} = useAuth()
+  const theme = useSelector((state: RootState) => state.theme);
+  const { signOut } = useAuth();
   return (
-    <div className="header-wrapper">
+    <div className="header-wrapper" style={{ background: theme.palette.primary.light }}>
       <Container>
         <Grid2 container>
           <Grid2 size={6}>
@@ -20,6 +23,6 @@ const HeaderComp = () => {
       </Container>
     </div>
   );
-}
+};
 
-export default HeaderComp
+export default HeaderComp;

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { red } from "@mui/material/colors";
 
 // Define a type for the slice state
 interface ThemeSlice {
@@ -17,9 +18,9 @@ interface ThemeSlice {
 const initialState: ThemeSlice = {
   palette: {
     primary: {
-      light: "#757ce8",
-      main: "#3f50b5",
-      dark: "#002884",
+      light: red["100"],
+      main: red["500"],
+      dark: red["900"],
       contrastText: "#fff",
     },
   },
