@@ -38,8 +38,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <HeaderComp />
-      <div className="company-form">
+      <div className="company-form my-5">
         <Container>
           <Grid2 container offset={3} size={6}>
             <Card>
