@@ -5,21 +5,23 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import ThemeWrapper from "./ThemeWrapper";
-import { Container, Skeleton } from "@mui/material";
+import { Container } from "@mui/material";
 import HeaderComp from "./Header";
 import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
+import PageLoader from "./PageLoader";
 
 const AuthWrapper = (props: PropsWithChildren) => {
     const { isLoaded, isSignedIn } = useAuth();
-    return (
-      !isLoaded ? <Skeleton /> : (
-        <>
-          {isSignedIn && <HeaderComp />}
-          {props.children}
-          <FooterComp />
-        </>
-      )
+
+    return !isLoaded ? (
+      <PageLoader />
+    ) : (
+      <>
+        {isSignedIn && <HeaderComp />}
+        {props.children}
+        <FooterComp />
+      </>
     );
   };
 

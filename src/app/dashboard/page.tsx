@@ -1,6 +1,7 @@
 "use client";
 
 import HeaderComp from "@/components/common/Header";
+import PageLoader from "@/components/common/PageLoader";
 import Toast from "@/components/common/Toast";
 import { setPaletteColor } from "@/store/slice/themeSlice";
 import { useAuth } from "@clerk/clerk-react";
@@ -18,7 +19,6 @@ import { useDispatch } from "react-redux";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const {user, isLoaded, isSignedIn} = useUser()
-  const {signOut} = useAuth()
 
   console.log("===", user, isLoaded, isSignedIn);
 
@@ -37,7 +37,9 @@ const Dashboard = () => {
   };
 
   return (
-    <>
+    !isLoaded ? (
+      <PageLoader />
+    ) : (
       <div className="company-form my-5">
         <Container>
           <Grid2 container offset={3} size={6}>
@@ -78,7 +80,7 @@ const Dashboard = () => {
           </Grid2>
         </Container>
       </div>
-    </>
+    )
   );
 };
 
