@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import ThemeWrapper from "./ThemeWrapper";
-import { Container, Grid2, Skeleton } from "@mui/material";
+import { Container, Skeleton } from "@mui/material";
 import HeaderComp from "./Header";
 import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
