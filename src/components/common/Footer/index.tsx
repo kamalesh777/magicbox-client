@@ -1,9 +1,9 @@
-import { Grid2 } from '@mui/material';
+import { Box, Grid2 } from '@mui/material';
 import React from 'react'
 
 const FooterComp = () => {
   return (
-    <div className="footerWrapper">
+    <Box className="footerWrapper">
       <Grid2
         container
         alignItems="center"
@@ -12,7 +12,7 @@ const FooterComp = () => {
       >
         <div>Made by: Kamalesh Maity</div>
       </Grid2>
-    </div>
+    </Box>
   );
 }
 

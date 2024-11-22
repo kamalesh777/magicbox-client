@@ -11,7 +11,6 @@ import {
 import { useRouter } from "next/navigation";
 
 const HeaderComp = () => {
-  const theme = useSelector((state: RootState) => state.theme);
   const { signOut } = useAuth();
   const {user, isLoaded} = useUser()
   const router = useRouter()
@@ -42,7 +41,8 @@ const HeaderComp = () => {
   return (
     <Box
       className="header-wrapper"
-      style={{ background: theme.palette.primary.light }}
+      // sx={{ background: (v) => console.log("===v", v) }}
+      sx={{ background: (t) => t.palette.primary.light }}
     >
       <Container disableGutters>
         <Grid2 container>
