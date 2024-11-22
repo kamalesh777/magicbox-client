@@ -63,49 +63,38 @@ const Dashboard = () => {
                   member
                 </p>
                 <Grid2 size={12}>
-                  <div className="mb-3">
-                    <Controller
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          size="small"
-                          className="w-100"
-                          label="Name"
-                        />
-                      )}
-                      name="name"
-                      control={control}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <Controller
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          size="small"
-                          className="w-100"
-                          label="Email"
-                        />
-                      )}
-                      name="email"
-                      control={control}
-                    />
-                  </div>
-                  <InputFieldWrapper label="Company Name" name="company_name" required={true} control={control} errors={errors} />
-                  <div className="mb-3">
-                    <Controller
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          size="small"
-                          className="w-100"
-                          label="Workspace Name"
-                        />
-                      )}
-                      name="workspace_name"
-                      control={control}
-                    />
-                  </div>
+                  <InputFieldWrapper
+                    label="Name"
+                    name="name"
+                    control={control}
+                    errors={errors}
+                    required={true}
+                  />
+
+                  <InputFieldWrapper
+                    label="Email"
+                    name="email"
+                    control={control}
+                    errors={errors}
+                    required={true}
+                  />
+
+                  <InputFieldWrapper
+                    label="Company Name"
+                    name="company_name"
+                    control={control}
+                    errors={errors}
+                    required={true}
+                  />
+
+                  <InputFieldWrapper
+                    label="Workspace Name"
+                    name="workspace_name"
+                    control={control}
+                    errors={errors}
+                    required={true}
+                  />
+
                   <Button variant="contained" type="submit">
                     Create Now!
                   </Button>

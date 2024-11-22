@@ -17,14 +17,19 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors }: Pr
     <div className="mb-3">
       <Controller
         rules={{
-            required: {
-                value: required || false,
-                message: "Field is required",
-            },
-            ...rules,
+          required: {
+            value: required || false,
+            message: "Field is required",
+          },
+          ...rules,
         }}
         render={({ field }) => (
-          <TextField {...field} size="small" className="w-100" label={label} />
+          <TextField
+            {...field}
+            size="small"
+            className="w-100"
+            label={`${label} ${required ? '*' : ''}`}
+          />
         )}
         name={name}
         control={control}
@@ -33,7 +38,7 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors }: Pr
         errors={errors}
         name={name}
         render={({ message }) => (
-          <Box sx={{ color: "error.main" }}>{message}</Box>
+          <Box sx={{ color: "error.main", fontSize: 'fontSize' }}>{message}</Box>
         )}
       />
     </div>
