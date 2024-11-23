@@ -72,11 +72,3 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
   return handleRequest(request);
 }
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "20mb", // Set desired value here
-    },
-  },
-};
