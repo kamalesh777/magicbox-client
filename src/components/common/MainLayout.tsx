@@ -3,7 +3,7 @@
 import React, { PropsWithChildren } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
 import { Container } from "@mui/material";
 import HeaderComp from "./Header";

@@ -1,27 +1,19 @@
 "use client";
 
-import HeaderComp from "@/components/common/Header";
 import PageLoader from "@/components/common/PageLoader";
-import Toast from "@/components/common/Toast";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
-import { setPaletteColor } from "@/store/slice/themeSlice";
-import { useAuth } from "@clerk/clerk-react";
 import { useUser } from "@clerk/nextjs";
-import { ErrorMessage } from "@hookform/error-message";
 import {
   Button,
   Card,
   CardContent,
   Container,
   Grid2,
-  TextField,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Controller, useForm, Form } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
   const {user, isLoaded, isSignedIn} = useUser()
 
   const {
@@ -39,6 +31,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    fetch('http://localhost:5000/')
     console.log("===data", isLoaded);
     if (isLoaded) {
       setValue('name', user?.fullName as string)
