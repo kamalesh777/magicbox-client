@@ -1,5 +1,7 @@
 "use client";
 
+import API from "@/api/preference/API";
+import { getRequest } from "@/api/preference/RequestService";
 import PageLoader from "@/components/common/PageLoader";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
 import { useUser } from "@clerk/nextjs";
@@ -31,7 +33,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/')
+    getRequest("/api/api-testing");
     console.log("===data", isLoaded);
     if (isLoaded) {
       setValue('name', user?.fullName as string)

@@ -1,6 +1,5 @@
 // import Toast from '@/components/common/Toast'
 import apiRoutes from '@/constants/ApiConstant'
-import { auth } from "@clerk/nextjs/server";
 import axios from 'axios'
 
 
@@ -21,7 +20,6 @@ API.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/require-await
   async (req) => {
     const requestUrl = (req?.url as string).replace("/api/", "");
-    console.log("===requestUrl", requestUrl);
     req.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
     req.headers.Pragma = 'no-cache';
     (req.headers["Content-Type"] = "application/json"),
@@ -30,7 +28,6 @@ API.interceptors.request.use(
         apiRoutes[(requestUrl as keyof typeof apiRoutes)]);
     req.maxContentLength = Infinity; 
     req.maxBodyLength = Infinity;
-    console.log("===auth", auth)
     return req
   },
   async (err) => await Promise.reject(err)
