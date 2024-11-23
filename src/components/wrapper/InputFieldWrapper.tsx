@@ -10,9 +10,10 @@ interface PropTypes {
   required?: boolean;
   control: any;
   errors?: Record<string, any>;
+  disabled?: boolean
 }
 
-const InputFieldWrapper = ({ label, name, rules, required, control, errors }: PropTypes) => {
+const InputFieldWrapper = ({ label, name, rules, required, control, errors, disabled }: PropTypes) => {
   return (
     <div className="mb-3">
       <Controller
@@ -28,17 +29,20 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors }: Pr
             {...field}
             size="small"
             className="w-100"
-            label={`${label} ${required ? '*' : ''}`}
+            label={`${label} ${required ? "*" : ""}`}
           />
         )}
         name={name}
         control={control}
+        disabled={disabled}
       />
       <ErrorMessage
         errors={errors}
         name={name}
         render={({ message }) => (
-          <Box sx={{ color: "error.main", fontSize: 'fontSize' }}>{message}</Box>
+          <Box sx={{ color: "error.main", fontSize: "fontSize" }}>
+            {message}
+          </Box>
         )}
       />
     </div>

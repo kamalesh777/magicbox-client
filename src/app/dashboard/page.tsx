@@ -77,6 +77,7 @@ const Dashboard = () => {
                     control={control}
                     errors={errors}
                     required={true}
+                    disabled
                   />
 
                   <InputFieldWrapper
