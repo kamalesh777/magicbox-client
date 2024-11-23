@@ -6,14 +6,14 @@ import { dataResponse } from "@/utils/allTypes";
 
 const ERROR_MSG = "Something went wrong";
 
-const responseHandler = (response: dataResponse | dataResponse[], status: number) => {
+const responseHandler = (response: unknown, status: number) => {
   return new Response(JSON.stringify(response), {
     status: status || 200,
     headers: { "Content-Type": "application/json" },
   });
 }
 
-export async function handleRequest(request: Request) {
+async function handleRequest(request: Request): Promise<Response> {
   try {
     const { getToken } = await auth();
     const token = await getToken();
@@ -26,6 +26,7 @@ export async function handleRequest(request: Request) {
     const response = await API({
       ...request,
       url: ENDPOINT,
+      ...(isGetMethod ? {} : {data: request.body}),
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,18 +58,18 @@ export async function handleRequest(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<Response> {
   return handleRequest(request);
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   return handleRequest(request);
 }
 
-export async function PUT(request: Request) {
+export async function PUT(request: Request): Promise<Response> {
   return handleRequest(request);
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: Request): Promise<Response> {
   return handleRequest(request);
 }

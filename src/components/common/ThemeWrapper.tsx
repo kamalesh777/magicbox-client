@@ -1,5 +1,5 @@
 
-import { RootState } from '@/store';
+import { RootState } from '@/store/index';
 import { createTheme, ThemeOptions, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { SnackbarProvider } from 'notistack';
