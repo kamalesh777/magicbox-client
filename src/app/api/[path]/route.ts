@@ -14,11 +14,14 @@ const responseHandler = (response: unknown, status: number, endpoint: string) =>
 }
 
 async function handleRequest(request: Request): Promise<Response> {
-  const { pathname } = new URL(request.url);
-  const index = pathname.replace("/api/", "");
+  const nextRequest = new URL(request.url);
+  const index = nextRequest.pathname.replace("/api/", "");
+
+  console.log("===nextRequest", nextRequest);
 
   // it will give the original api endpoint
-  const ENDPOINT = apiRoute[index as keyof typeof apiRoute] as string;
+  const maskUrl = apiRoute[index as keyof typeof apiRoute] as string;
+  const ENDPOINT = `${maskUrl}${nextRequest.search}`;
 
   try {
     const { getToken } = await auth();
