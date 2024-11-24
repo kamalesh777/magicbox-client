@@ -15,14 +15,17 @@ const responseHandler = (response: unknown, status: number, endpoint: string) =>
 
 async function handleRequest(request: Request): Promise<Response> {
   const nextRequest = new URL(request.url);
-  const index = nextRequest.pathname.replace("/api/", "");
+  const newUrl = nextRequest.pathname.replace("/api/", "");
+  const urlParams = newUrl.split('/')
 
-  console.log("===nextRequest", nextRequest);
-
+  
   // it will give the original api endpoint
-  const maskUrl = apiRoute[index as keyof typeof apiRoute] as string;
-  const ENDPOINT = `${maskUrl}${nextRequest.search}`;
-
+  const maskUrl = apiRoute[urlParams?.at(0) as keyof typeof apiRoute] as string;
+  // make the param string after removing the mask url key wihich will come at first index
+  const paramString = urlParams?.length > 1 ? `/${urlParams.slice(1, urlParams.length).join("/")}` : "";
+  // after getting originial url concat with prama and searh value
+  const ENDPOINT = `${maskUrl}${paramString}${nextRequest.search}`;
+  
   try {
     const { getToken } = await auth();
     const token = await getToken();
