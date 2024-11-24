@@ -6,21 +6,23 @@ import { dataResponse } from "@/utils/allTypes";
 
 const ERROR_MSG = "Something went wrong";
 
-const responseHandler = (response: unknown, status: number) => {
+const responseHandler = (response: unknown, status: number, endpoint: string) => {
   return new Response(JSON.stringify(response), {
     status: status || 200,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", 'Api-Endpoint': endpoint },
   });
 }
 
 async function handleRequest(request: Request): Promise<Response> {
+  const { pathname } = new URL(request.url);
+  const index = pathname.replace("/api/", "");
+
+  // it will give the original api endpoint
+  const ENDPOINT = apiRoute[index as keyof typeof apiRoute] as string;
+
   try {
     const { getToken } = await auth();
     const token = await getToken();
-    const { pathname } = new URL(request.url);
-    const index = pathname.replace("/api/", "");
-
-    const ENDPOINT = apiRoute[index as keyof typeof apiRoute] as string;
 
     const isGetMethod = request.method === 'GET'
     const response = await API({
@@ -37,14 +39,15 @@ async function handleRequest(request: Request): Promise<Response> {
       message: response.data.message || ERROR_MSG,
     };
 
-    return responseHandler(finalResponse, response.status);
+    return responseHandler(finalResponse, response.status, ENDPOINT);
 
   } catch (error) {
     const axiosResponse = (error as AxiosError)?.response as AxiosResponse;
     if (axiosResponse && axiosResponse.status === 404) {
       return responseHandler(
         axiosResponse.data || { message: "API is not found" },
-        404
+        404,
+        ENDPOINT
       );
     }
 
@@ -53,7 +56,8 @@ async function handleRequest(request: Request): Promise<Response> {
         message: ERROR_MSG,
         ...(axiosResponse?.data || {}),
       },
-      axiosResponse?.status || 500
+      axiosResponse?.status || 500,
+      ENDPOINT
     );
   }
 }
