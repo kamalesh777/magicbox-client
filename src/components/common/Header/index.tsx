@@ -64,7 +64,7 @@ const HeaderComp = () => {
               ) : (
                 <>
                   <Avatar alt={user?.fullName as string} src={user?.imageUrl} />
-                  <Box>{user?.firstName}</Box>
+                  <Box>{user?.firstName || 'Unknown'}</Box>
                 </>
               )}
             </Stack>
