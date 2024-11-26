@@ -4,7 +4,7 @@ import API from "@/api/preference/API";
 import { getRequest } from "@/api/preference/RequestService";
 import PageLoader from "@/components/common/PageLoader";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
-import { useGetRequestHandler } from "@/hooks/requestHandler";
+import { useGetRequestHandler, usePostRequestHandler } from "@/hooks/requestHandler";
 import { useUser } from "@clerk/nextjs";
 import {
   Button,
@@ -12,13 +12,17 @@ import {
   CardContent,
   Container,
   Grid2,
+  InputAdornment,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+const PRIMARY_DOMAIN = process.env.NEXT_PUBLIC_PRIMARY_DOMAIN
+
 const Dashboard = () => {
   const {user, isLoaded, isSignedIn} = useUser()
   const {fetchData} = useGetRequestHandler()
+  const {submit} = usePostRequestHandler()
 
   const {
     handleSubmit,
@@ -42,6 +46,19 @@ const Dashboard = () => {
     }
   }, [isLoaded]);
 
+  const formSubmitHandler = (formValues: any) => {
+    const payload = {
+      ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
+      ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
+      primary_domain: PRIMARY_DOMAIN,
+      ...formValues
+    }
+
+    console.log("===payload", payload)
+
+    submit('/api/create-workspace', payload)
+  }
+
   return !isLoaded ? (
     <PageLoader />
   ) : (
@@ -51,7 +68,7 @@ const Dashboard = () => {
           <Card>
             <CardContent>
               <form
-                onSubmit={handleSubmit((data) => console.log("===data", data))}
+                onSubmit={handleSubmit((values) => formSubmitHandler(values))}
               >
                 <h2>Create Workspace</h2>
                 <p className="mb-4">
@@ -73,7 +90,9 @@ const Dashboard = () => {
                     control={control}
                     errors={errors}
                     required={true}
-                    disabled
+                    textFieldProps={{
+                      disabled: true
+                    }}
                   />
 
                   <InputFieldWrapper
@@ -90,6 +109,13 @@ const Dashboard = () => {
                     control={control}
                     errors={errors}
                     required={true}
+                    textFieldProps={{
+                      slotProps: {
+                        input: {
+                          endAdornment: <InputAdornment position="end">{PRIMARY_DOMAIN}</InputAdornment>,
+                        },
+                      }
+                    }}                 
                   />
 
                   <Button variant="contained" type="submit">
