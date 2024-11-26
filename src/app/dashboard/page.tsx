@@ -53,9 +53,6 @@ const Dashboard = () => {
       primary_domain: PRIMARY_DOMAIN,
       ...formValues
     }
-
-    console.log("===payload", payload)
-
     submit('/api/create-workspace', payload)
   }
 

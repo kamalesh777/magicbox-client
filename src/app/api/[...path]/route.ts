@@ -11,32 +11,40 @@ const responseHandler = (response: unknown, status: number, endpoint: string) =>
     status: status || 200,
     headers: { "Content-Type": "application/json", 'Api-Endpoint': endpoint },
   });
-}
+};
 
 async function handleRequest(request: Request): Promise<Response> {
   const nextRequest = new URL(request.url);
   const newUrl = nextRequest.pathname.replace("/api/", "");
-  const urlParams = newUrl.split('/')
+  const urlParams = newUrl.split('/');
 
-  
-  // it will give the original api endpoint
+  // It will give the original API endpoint
   const maskUrl = apiRoute[urlParams?.at(0) as keyof typeof apiRoute] as string;
-  // make the param string after removing the mask url key wihich will come at first index
-  const paramString = urlParams?.length > 1 ? `/${urlParams.slice(1, urlParams.length).join("/")}` : "";
-  // after getting originial url concat with prama and searh value
+  // Make the param string after removing the mask URL key (which will come at the first index)
+  const paramString = urlParams?.length > 1 ? `/${urlParams.slice(1).join("/")}` : "";
+  // After getting the original URL, concatenate with param and search value
   const ENDPOINT = `${maskUrl}${paramString}${nextRequest.search}`;
-  
+
   try {
     const { getToken } = await auth();
     const token = await getToken();
 
-    const isGetMethod = request.method === 'GET'
+    const isGetMethod = request.method === 'GET';
+
+    // Read the request body if it's not a GET request
+    let bodyData = undefined;
+    if (!isGetMethod) {
+      // Await the request body to be parsed as JSON for POST/PUT requests
+      bodyData = await request.json();
+    }
+
     const response = await API({
-      ...request,
+      method: request.method,  // Pass the correct method
       url: ENDPOINT,
-      ...(isGetMethod ? {} : {data: request.body}),
+      data: bodyData,          // Include bodyData for non-GET methods
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     });
 
@@ -57,6 +65,7 @@ async function handleRequest(request: Request): Promise<Response> {
       );
     }
 
+    // Catch any other errors (e.g., 500 or network-related)
     return responseHandler(
       {
         message: ERROR_MSG,
