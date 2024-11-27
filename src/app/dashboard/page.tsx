@@ -42,7 +42,7 @@ const Dashboard = () => {
     if (isLoaded) {
       setValue('name', user?.fullName as string)
       setValue("email", user?.primaryEmailAddress?.emailAddress as string);
-      fetchData('/api/api-testing?page=214')
+      fetchData('/api/view-workspace')
     }
   }, [isLoaded]);
 

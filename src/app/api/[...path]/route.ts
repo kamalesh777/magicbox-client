@@ -39,12 +39,13 @@ async function handleRequest(request: Request): Promise<Response> {
     }
 
     const response = await API({
-      method: request.method,  // Pass the correct method
+      method: request.method, // Pass the correct method
       url: ENDPOINT,
-      data: bodyData,          // Include bodyData for non-GET methods
+      data: bodyData, // Include bodyData for non-GET methods
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
+        Host: nextRequest.host,
       },
     });
 
