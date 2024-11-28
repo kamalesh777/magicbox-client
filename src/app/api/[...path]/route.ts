@@ -45,7 +45,7 @@ async function handleRequest(request: Request): Promise<Response> {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        Host: nextRequest.host,
+        'Host-url': nextRequest.host,
       },
     });
 
