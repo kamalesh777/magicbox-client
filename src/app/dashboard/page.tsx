@@ -43,6 +43,7 @@ const Dashboard = () => {
       setValue('name', user?.fullName as string)
       setValue("email", user?.primaryEmailAddress?.emailAddress as string);
       fetchData('/api/view-workspace')
+      fetchData("/api/api-testing");
     }
   }, [isLoaded]);
 
