@@ -1,5 +1,4 @@
 // import Toast from '@/components/common/Toast'
-import apiRoutes from '@/constants/ApiConstant'
 import axios from 'axios'
 
 

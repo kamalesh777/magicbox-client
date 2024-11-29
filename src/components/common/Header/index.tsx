@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { RootState } from "@/store/index";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { Grid2, Container, Avatar, Stack, Menu, MenuItem, Box, Skeleton } from "@mui/material";
-import { useSelector } from "react-redux";
 import {
   SettingsOutlined,
   ManageAccountsOutlined,
@@ -78,7 +76,7 @@ const HeaderComp = () => {
               <MenuItem>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <ManageAccountsOutlined />
-                  <Box>My account</Box>
+                  <Box>My Profile</Box>
                 </Stack>
               </MenuItem>
               <MenuItem>

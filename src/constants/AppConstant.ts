@@ -1,0 +1,1 @@
+export const PRIMARY_DOMAIN = process.env.NEXT_PUBLIC_PRIMARY_DOMAIN;
