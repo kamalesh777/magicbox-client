@@ -3,8 +3,10 @@
 import API from "@/api/preference/API";
 import { getRequest } from "@/api/preference/RequestService";
 import PageLoader from "@/components/common/PageLoader";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
 import { useGetRequestHandler, usePostRequestHandler } from "@/hooks/requestHandler";
+import { dataResponse } from "@/utils/allTypes";
 import { useUser } from "@clerk/nextjs";
 import {
   Button,
@@ -14,15 +16,17 @@ import {
   Grid2,
   InputAdornment,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const PRIMARY_DOMAIN = process.env.NEXT_PUBLIC_PRIMARY_DOMAIN
 
 const Dashboard = () => {
+  const router = useRouter()
   const {user, isLoaded, isSignedIn} = useUser()
   const {fetchData} = useGetRequestHandler()
-  const {submit} = usePostRequestHandler()
+  const { buttonLoading, submit } = usePostRequestHandler();
 
   const {
     handleSubmit,
@@ -46,15 +50,21 @@ const Dashboard = () => {
     }
   }, [isLoaded]);
 
-  const formSubmitHandler = (formValues: any) => {
+  const formSubmitHandler = async (formValues: any) => {
     const payload = {
       ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
       ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
       primary_domain: PRIMARY_DOMAIN,
       ...formValues
     }
-    submit('/api/create-workspace', payload)
+     
+    const data = await submit('/api/create-workspace', payload)
+    if (data?.success) {
+      const url = data.result.workspace_url as string;
+      const newUrl = 'https://' + url;
+      window.open( newUrl, "_blank");
   }
+}
 
   return !isLoaded ? (
     <PageLoader />
@@ -88,7 +98,7 @@ const Dashboard = () => {
                     errors={errors}
                     required={true}
                     textFieldProps={{
-                      disabled: true
+                      disabled: true,
                     }}
                   />
 
@@ -109,15 +119,24 @@ const Dashboard = () => {
                     textFieldProps={{
                       slotProps: {
                         input: {
-                          endAdornment: <InputAdornment position="end">{PRIMARY_DOMAIN}</InputAdornment>,
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              https://
+                            </InputAdornment>
+                          ),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              {PRIMARY_DOMAIN}
+                            </InputAdornment>
+                          ),
                         },
-                      }
-                    }}                 
+                      },
+                    }}
                   />
 
-                  <Button variant="contained" type="submit">
+                  <ButtonWrapper loading={buttonLoading} type="submit">
                     Create Now!
-                  </Button>
+                  </ButtonWrapper>
                 </Grid2>
               </form>
             </CardContent>
@@ -128,4 +147,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard
