@@ -8,7 +8,7 @@ interface ExtendButtonProps extends ButtonProps {
 const ButtonWrapper = (props: ExtendButtonProps) => {
   return (
     <Button
-      startIcon={props?.loading && <CircularProgress size={18}/>}
+      startIcon={props?.loading ? <CircularProgress size={18}/> : null}
       disabled={props?.loading}
       variant={props?.variant || "contained"}
       {...props}
