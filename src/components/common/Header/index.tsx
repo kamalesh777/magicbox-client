@@ -6,13 +6,14 @@ import {
   ManageAccountsOutlined,
   PowerSettingsNewOutlined,
 } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 const HeaderComp = () => {
+  const router = useRouter()
+  const pathname = usePathname()
   const { signOut } = useAuth();
   const {user, isLoaded} = useUser()
-  const router = useRouter()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -75,7 +76,7 @@ const HeaderComp = () => {
               className="mt-2"
             >
               <Link legacyBehavior href="/account" className="">
-                <MenuItem>
+                <MenuItem selected={pathname === '/account'}>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <ManageAccountsOutlined />
                     <Box>My Account</Box>
