@@ -1,67 +1,53 @@
-"use client";
+import ButtonWrapper from '@/components/wrapper/ButtonWrapper';
+import InputFieldWrapper from '@/components/wrapper/InputFieldWrapper';
+import { PRIMARY_DOMAIN } from '@/constants/AppConstant';
+import { usePostRequestHandler } from '@/hooks/requestHandler';
+import { useUser } from '@clerk/nextjs';
+import { Container, Grid2, Card, CardContent, InputAdornment } from '@mui/material';
+import React, { useEffect } from 'react'
+import { useForm } from 'react-hook-form';
 
-import PageLoader from "@/components/common/PageLoader";
-import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
-import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
-import { PRIMARY_DOMAIN } from "@/constants/AppConstant";
-import {
-  usePostRequestHandler,
-} from "@/hooks/requestHandler";
-import { useUser } from "@clerk/nextjs";
-import {
-  Card,
-  CardContent,
-  Container,
-  Grid2,
-  InputAdornment,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+const MyProfilePage = () => {
+    const { user, isLoaded } = useUser();
+    const { buttonLoading, submit } = usePostRequestHandler();
 
-const DashboardComp = () => {
-  const { user, isLoaded } = useUser();
-  const { buttonLoading, submit } = usePostRequestHandler();
+    const {
+      handleSubmit,
+      formState: { errors },
+      control,
+      setValue,
+    } = useForm({
+      defaultValues: {
+        name: "",
+        email: "",
+        company_name: "",
+        workspace_name: "",
+      },
+    });
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-    setValue,
-  } = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      company_name: "",
-      workspace_name: "",
-    },
-  });
+    useEffect(() => {
+      if (isLoaded) {
+        setValue("name", user?.fullName as string);
+        setValue("email", user?.primaryEmailAddress?.emailAddress as string);
+      }
+    }, [isLoaded]);
 
-  useEffect(() => {
-    if (isLoaded) {
-      setValue("name", user?.fullName as string);
-      setValue("email", user?.primaryEmailAddress?.emailAddress as string);
-    }
-  }, [isLoaded]);
+    const formSubmitHandler = async (formValues: any) => {
+      const payload = {
+        ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
+        ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
+        primary_domain: PRIMARY_DOMAIN,
+        ...formValues,
+      };
 
-  const formSubmitHandler = async (formValues: any) => {
-    const payload = {
-      ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
-      ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
-      primary_domain: PRIMARY_DOMAIN,
-      ...formValues,
+      const data = await submit("/api/create-workspace", payload);
+      if (data?.success) {
+        const url = data.result.workspace_url as string;
+        const newUrl = "https://" + url;
+        window.open(newUrl, "_blank");
+      }
     };
-
-    const data = await submit("/api/create-workspace", payload);
-    if (data?.success) {
-      const url = data.result.workspace_url as string;
-      const newUrl = "https://" + url;
-      window.open(newUrl, "_blank");
-    }
-  };
-
-  return !isLoaded ? (
-    <PageLoader />
-  ) : (
+  return (
     <div className="company-form my-5">
       <Container>
         <Grid2 container offset={3} size={6}>
@@ -138,6 +124,6 @@ const DashboardComp = () => {
       </Container>
     </div>
   );
-};
+}
 
-export default DashboardComp;
+export default MyProfilePage

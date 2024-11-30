@@ -1,6 +1,6 @@
 import API from './API'
 import type { dataResponse } from '@/utils/allTypes'
-import type { AxiosError } from 'axios'
+import type { AxiosError, AxiosRequestConfig } from 'axios'
 // import landerAPI from '@pages/api/landerAPI';
 
 /**
@@ -16,7 +16,7 @@ import type { AxiosError } from 'axios'
 
 export const getRequest = async (endPoint: string, headerData = {}): Promise<dataResponse> => {
   try {
-    const response = await API.get(endPoint, headerData)
+    const response = await API.get(endPoint, headerData);
     return response
   } catch (err) {
     // Return a rejected promise with the error response

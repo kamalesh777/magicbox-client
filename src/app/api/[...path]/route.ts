@@ -2,7 +2,6 @@ import API from "@/api/preference/API";
 import apiRoute from "@/constants/ApiConstant";
 import { AxiosError, AxiosResponse } from "axios";
 import { auth } from "@clerk/nextjs/server";
-import { dataResponse } from "@/utils/allTypes";
 
 const ERROR_MSG = "Something went wrong";
 
