@@ -1,52 +1,60 @@
-import ButtonWrapper from '@/components/wrapper/ButtonWrapper';
-import InputFieldWrapper from '@/components/wrapper/InputFieldWrapper';
-import { PRIMARY_DOMAIN } from '@/constants/AppConstant';
-import { usePostRequestHandler } from '@/hooks/requestHandler';
-import { useUser } from '@clerk/nextjs';
-import { Container, Grid2, Card, CardContent, InputAdornment } from '@mui/material';
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form';
+'use client'
 
-const MyProfilePage = () => {
-    const { user, isLoaded } = useUser();
-    const { buttonLoading, submit } = usePostRequestHandler();
+import React, { useEffect } from "react";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
+import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
+import { PRIMARY_DOMAIN } from "@/constants/AppConstant";
+import { usePostRequestHandler } from "@/hooks/requestHandler";
+import { useUser } from "@clerk/nextjs";
+import {
+  Container,
+  Grid2,
+  Card,
+  CardContent,
+  InputAdornment,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
 
-    const {
-      handleSubmit,
-      formState: { errors },
-      control,
-      setValue,
-    } = useForm({
-      defaultValues: {
-        name: "",
-        email: "",
-        company_name: "",
-        workspace_name: "",
-      },
-    });
+const AccountComp = () => {
+  const { user, isLoaded } = useUser();
+  const { buttonLoading, submit } = usePostRequestHandler();
 
-    useEffect(() => {
-      if (isLoaded) {
-        setValue("name", user?.fullName as string);
-        setValue("email", user?.primaryEmailAddress?.emailAddress as string);
-      }
-    }, [isLoaded]);
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      company_name: "",
+      workspace_name: "",
+    },
+  });
 
-    const formSubmitHandler = async (formValues: any) => {
-      const payload = {
-        ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
-        ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
-        primary_domain: PRIMARY_DOMAIN,
-        ...formValues,
-      };
+  useEffect(() => {
+    if (isLoaded) {
+      setValue("name", user?.fullName as string);
+      setValue("email", user?.primaryEmailAddress?.emailAddress as string);
+    }
+  }, [isLoaded]);
 
-      const data = await submit("/api/create-workspace", payload);
-      if (data?.success) {
-        const url = data.result.workspace_url as string;
-        const newUrl = "https://" + url;
-        window.open(newUrl, "_blank");
-      }
+  const formSubmitHandler = async (formValues: any) => {
+    const payload = {
+      ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
+      ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
+      primary_domain: PRIMARY_DOMAIN,
+      ...formValues,
     };
+
+    const data = await submit("/api/create-workspace", payload);
+    if (data?.success) {
+      const url = data.result.workspace_url as string;
+      const newUrl = "https://" + url;
+      window.open(newUrl, "_blank");
+    }
+  };
   return (
     <div className="company-form my-5">
       <Container>
@@ -56,7 +64,7 @@ const MyProfilePage = () => {
               <form
                 onSubmit={handleSubmit((values) => formSubmitHandler(values))}
               >
-                <h2>Create Workspace</h2>
+                <h2>Create Account</h2>
                 <p className="mb-4">
                   A workspace will help you to play the game with your team
                   member
@@ -124,6 +132,6 @@ const MyProfilePage = () => {
       </Container>
     </div>
   );
-}
+};
 
-export default MyProfilePage
+export default AccountComp;

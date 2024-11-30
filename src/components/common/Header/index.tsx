@@ -7,6 +7,7 @@ import {
   PowerSettingsNewOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const HeaderComp = () => {
   const { signOut } = useAuth();
@@ -62,7 +63,7 @@ const HeaderComp = () => {
               ) : (
                 <>
                   <Avatar alt={user?.fullName as string} src={user?.imageUrl} />
-                  <Box>{user?.firstName || 'Unknown'}</Box>
+                  <Box>{user?.firstName || "Unknown"}</Box>
                 </>
               )}
             </Stack>
@@ -73,12 +74,14 @@ const HeaderComp = () => {
               disableAutoFocusItem
               className="mt-2"
             >
-              <MenuItem>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <ManageAccountsOutlined />
-                  <Box>My Profile</Box>
-                </Stack>
-              </MenuItem>
+              <Link legacyBehavior href="/account" className="">
+                <MenuItem>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <ManageAccountsOutlined />
+                    <Box>My Account</Box>
+                  </Stack>
+                </MenuItem>
+              </Link>
               <MenuItem>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <SettingsOutlined />
