@@ -12,6 +12,7 @@ import {
   Card,
   CardContent,
   InputAdornment,
+  Box,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 
@@ -56,28 +57,36 @@ const AccountComp = () => {
     }
   };
   return (
-    <div className="company-form my-5">
-      <Container>
-        <Grid2 container offset={3} size={6}>
-          <Card>
-            <CardContent>
-              <form
-                onSubmit={handleSubmit((values) => formSubmitHandler(values))}
+    <div className="company-form">
+      {/* <Container> */}
+      <Grid2 container alignContent="center" direction="column">
+        <Card>
+          <CardContent>
+            <form
+              onSubmit={handleSubmit((values) => formSubmitHandler(values))}
+            >
+              <h2>Update Account</h2>
+              <Box
+                component={"p"}
+                sx={{ color: "error.main" }}
+                className="mb-4"
               >
-                <h2>Create Account</h2>
-                <p className="mb-4">
-                  A workspace will help you to play the game with your team
-                  member
-                </p>
-                <Grid2 size={12}>
+                *Note: Please provide valid details to avoid any issues later.
+              </Box>
+              <Grid2 container size={12} columnSpacing={2}>
+                <Grid2 size={6}>
                   <InputFieldWrapper
                     label="Name"
                     name="name"
                     control={control}
                     errors={errors}
                     required={true}
+                    textFieldProps={{
+                      disabled: true,
+                    }}
                   />
-
+                </Grid2>
+                <Grid2 size={6}>
                   <InputFieldWrapper
                     label="Email"
                     name="email"
@@ -88,48 +97,51 @@ const AccountComp = () => {
                       disabled: true,
                     }}
                   />
-
-                  <InputFieldWrapper
-                    label="Company Name"
-                    name="company_name"
-                    control={control}
-                    errors={errors}
-                    required={true}
-                  />
-
-                  <InputFieldWrapper
-                    label="Workspace Name"
-                    name="workspace_name"
-                    control={control}
-                    errors={errors}
-                    required={true}
-                    textFieldProps={{
-                      slotProps: {
-                        input: {
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              https://
-                            </InputAdornment>
-                          ),
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {PRIMARY_DOMAIN}
-                            </InputAdornment>
-                          ),
-                        },
-                      },
-                    }}
-                  />
-
-                  <ButtonWrapper loading={buttonLoading} type="submit">
-                    Create Now!
-                  </ButtonWrapper>
                 </Grid2>
-              </form>
-            </CardContent>
-          </Card>
-        </Grid2>
-      </Container>
+              </Grid2>
+              <Grid2 size={12}>
+                <InputFieldWrapper
+                  label="Phone"
+                  name="phone"
+                  control={control}
+                  errors={errors}
+                  required={true}
+                />
+
+                <InputFieldWrapper
+                  label="Address"
+                  name="address"
+                  control={control}
+                  errors={errors}
+                  required={true}
+                  textFieldProps={{ multiline: true, row: 4 }}
+                />
+
+                <InputFieldWrapper
+                  label="State"
+                  name="state"
+                  control={control}
+                  errors={errors}
+                  required={true}
+                />
+
+                <InputFieldWrapper
+                  label="Pincode"
+                  name="pincode"
+                  control={control}
+                  errors={errors}
+                  required={true}
+                />
+
+                <ButtonWrapper loading={buttonLoading} type="submit">
+                  Update Now!
+                </ButtonWrapper>
+              </Grid2>
+            </form>
+          </CardContent>
+        </Card>
+      </Grid2>
+      {/* </Container> */}
     </div>
   );
 };

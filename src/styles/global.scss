@@ -25,12 +25,12 @@ h1, h2, h3, h4, h5, h6, p {
 }
 .header-wrapper {
     padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 .footerWrapper {
     padding: 10px;
-    background: #fff8f8;
-    position: fixed;
-    bottom: 0;
     width: 100%;
 }
 .cl-internal-df7v37 {
@@ -44,4 +44,14 @@ h1, h2, h3, h4, h5, h6, p {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.main-layout {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+.company-form {
+    width: 100%;
 }

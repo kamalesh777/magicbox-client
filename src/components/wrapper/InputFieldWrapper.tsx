@@ -31,6 +31,7 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors, text
             className="w-100"
             label={`${label} ${required ? "*" : ""}`}
             {...textFieldProps}
+            rows={4}
           />
         )}
         name={name}

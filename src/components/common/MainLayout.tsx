@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Provider } from "react-redux";
 import { store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import HeaderComp from "./Header";
 import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
@@ -19,7 +19,7 @@ const AuthWrapper = (props: PropsWithChildren) => {
     ) : (
       <>
         {isSignedIn && <HeaderComp />}
-        {props.children}
+        <Box className="main-layout">{props.children}</Box>
         <FooterComp />
       </>
     );

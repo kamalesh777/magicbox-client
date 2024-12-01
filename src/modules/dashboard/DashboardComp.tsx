@@ -17,10 +17,11 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import SuccessBoxComp from "./SuccessBox";
 
 const DashboardComp = () => {
   const { user, isLoaded } = useUser();
-  const { buttonLoading, submit } = usePostRequestHandler();
+  const { buttonLoading, submit, isSuccess } = usePostRequestHandler();
 
   const {
     handleSubmit,
@@ -51,23 +52,19 @@ const DashboardComp = () => {
       ...formValues,
     };
 
-    const data = await submit("/api/create-workspace", payload);
-    if (data?.success) {
-      const url = data.result.workspace_url as string;
-      const newUrl = "https://" + url;
-      window.open(newUrl, "_blank");
-    }
+    await submit("/api/create-workspace", payload);
   };
 
   return !isLoaded ? (
     <PageLoader />
   ) : (
-    <div className="company-form my-5">
+    <div className="company-form">
       <Container>
         <Grid2 container offset={3} size={6}>
           <Card>
             <CardContent>
-              <form
+              {isSuccess ? (
+                <form
                 onSubmit={handleSubmit((values) => formSubmitHandler(values))}
               >
                 <h2>Create Workspace</h2>
@@ -132,6 +129,9 @@ const DashboardComp = () => {
                   </ButtonWrapper>
                 </Grid2>
               </form>
+              ) : (
+                <SuccessBoxComp />
+              )}
             </CardContent>
           </Card>
         </Grid2>
