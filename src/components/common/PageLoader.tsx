@@ -8,7 +8,7 @@ const PageLoader = ({ width='50%' }) => {
       alignItems="center"
       justifyContent="center"
       direction="column"
-      className="vh-100"
+      className="vh-100 w-100"
     >
       <Box sx={{ width: width }}>
         <LinearProgress />

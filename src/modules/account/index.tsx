@@ -1,23 +1,26 @@
-'use client'
+"use client";
 
 import React, { useEffect } from "react";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
 import { PRIMARY_DOMAIN } from "@/constants/AppConstant";
-import { usePostRequestHandler } from "@/hooks/requestHandler";
-import { useUser } from "@clerk/nextjs";
 import {
-  Grid2,
-  Card,
-  CardContent,
-  Box,
-} from "@mui/material";
+  useGetRequestHandler,
+  usePostRequestHandler,
+} from "@/hooks/requestHandler";
+import { useUser } from "@clerk/nextjs";
+import { Grid2, Card, CardContent, Box } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Pattern } from "@mui/icons-material";
+import PageLoader from "@/components/common/PageLoader";
 
 const AccountComp = () => {
   const { user, isLoaded } = useUser();
+  const { isLoading, data, fetchData } = useGetRequestHandler();
   const { buttonLoading, submit } = usePostRequestHandler();
+
+  useEffect(() => {
+    fetchData("/api/view-user");
+  }, [isLoaded]);
 
   const {
     handleSubmit,
@@ -31,16 +34,20 @@ const AccountComp = () => {
       phone: "",
       address: "",
       state: "",
-      pincode: ""
+      pincode: "",
     },
   });
 
   useEffect(() => {
-    if (isLoaded) {
-      setValue("name", user?.fullName as string);
-      setValue("email", user?.primaryEmailAddress?.emailAddress as string);
+    if (!isLoading) {
+      setValue("name", data?.name as string);
+      setValue("email", data?.email as string);
+      setValue("phone", data?.phone as string);
+      setValue("address", data?.address as string);
+      setValue("state", data?.state as string);
+      setValue("pincode", data?.pincode as string);
     }
-  }, [isLoaded]);
+  }, [isLoading]);
 
   const formSubmitHandler = async (formValues: any) => {
     const payload = {
@@ -57,7 +64,9 @@ const AccountComp = () => {
       window.open(newUrl, "_blank");
     }
   };
-  return (
+  return !isLoaded ? (
+    <PageLoader />
+  ) : (
     <div className="company-form">
       {/* <Container> */}
       <Grid2 container alignContent="center" direction="column">
