@@ -7,14 +7,13 @@ import { PRIMARY_DOMAIN } from "@/constants/AppConstant";
 import { usePostRequestHandler } from "@/hooks/requestHandler";
 import { useUser } from "@clerk/nextjs";
 import {
-  Container,
   Grid2,
   Card,
   CardContent,
-  InputAdornment,
   Box,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { Pattern } from "@mui/icons-material";
 
 const AccountComp = () => {
   const { user, isLoaded } = useUser();
@@ -29,8 +28,10 @@ const AccountComp = () => {
     defaultValues: {
       name: "",
       email: "",
-      company_name: "",
-      workspace_name: "",
+      phone: "",
+      address: "",
+      state: "",
+      pincode: ""
     },
   });
 
@@ -106,6 +107,17 @@ const AccountComp = () => {
                   control={control}
                   errors={errors}
                   required={true}
+                  rules={{
+                    valueAsNumber: true,
+                    minLength: {
+                      value: 10, // Only allow numbers 0-9
+                      message: "Number must be 10 character long",
+                    },
+                    pattern: {
+                      value: /^[0-9]*$/, // Only allow numbers 0-9
+                      message: "Number must be between 0 and 9",
+                    },
+                  }}
                 />
 
                 <InputFieldWrapper
@@ -131,6 +143,13 @@ const AccountComp = () => {
                   control={control}
                   errors={errors}
                   required={true}
+                  rules={{
+                    valueAsNumber: true,
+                    pattern: {
+                      value: /^\d{6}$/, // Exactly 6 digits
+                      message: "Pincode must be exactly 6 digits",
+                    },
+                  }}
                 />
 
                 <ButtonWrapper loading={buttonLoading} type="submit">

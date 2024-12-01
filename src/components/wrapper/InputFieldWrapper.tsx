@@ -18,10 +18,11 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors, text
     <div className="mb-3">
       <Controller
         rules={{
+          ...(required && {
           required: {
             value: required || false,
             message: "Field is required",
-          },
+          }}),
           ...rules,
         }}
         render={({ field }) => (
