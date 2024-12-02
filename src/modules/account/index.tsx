@@ -15,7 +15,7 @@ import PageLoader from "@/components/common/PageLoader";
 const AccountComp = () => {
   const { isLoaded } = useUser();
   const { isLoading, data, fetchData } = useGetRequestHandler();
-  const { buttonLoading, submit } = usePostRequestHandler('patch');
+  const { buttonLoading, submit } = usePostRequestHandler('put');
 
   useEffect(() => {
     fetchData("/api/view-user");
