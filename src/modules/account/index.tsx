@@ -19,7 +19,7 @@ const AccountComp = () => {
 
   useEffect(() => {
     fetchData("/api/view-user");
-  }, [isLoaded]);
+  }, []);
 
   const {
     handleSubmit,
@@ -88,9 +88,6 @@ const AccountComp = () => {
                     control={control}
                     errors={errors}
                     required={true}
-                    textFieldProps={{
-                      disabled: true,
-                    }}
                   />
                 </Grid2>
                 <Grid2 size={6}>
