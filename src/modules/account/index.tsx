@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import PageLoader from "@/components/common/PageLoader";
 
 const AccountComp = () => {
-  const { isLoaded } = useUser();
+  const { isLoaded, user } = useUser();
   const { isLoading, data, fetchData } = useGetRequestHandler();
   const { buttonLoading, submit } = usePostRequestHandler('put');
 
@@ -40,7 +40,7 @@ const AccountComp = () => {
   useEffect(() => {
     if (!isLoading) {
       setValue("name", data?.name as string);
-      setValue("email", data?.email as string);
+      setValue("email", user?.primaryEmailAddress?.emailAddress || data?.email as string);
       setValue("phone", data?.phone as string);
       setValue("address", data?.address as string);
       setValue("state", data?.state as string);
