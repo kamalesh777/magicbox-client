@@ -8,6 +8,7 @@ const routesObj = {
   "view-workspace": `${BACKEND_API_SERVICE}/workspace/view-workspace`,
 
   "view-user": `${BACKEND_API_SERVICE}/user/view-user`,
+  "update-user": `${BACKEND_API_SERVICE}/user/update-user`,
 };
 
 export default routesObj;

@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
-import { PRIMARY_DOMAIN } from "@/constants/AppConstant";
 import {
   useGetRequestHandler,
   usePostRequestHandler,
@@ -14,9 +13,9 @@ import { useForm } from "react-hook-form";
 import PageLoader from "@/components/common/PageLoader";
 
 const AccountComp = () => {
-  const { user, isLoaded } = useUser();
+  const { isLoaded } = useUser();
   const { isLoading, data, fetchData } = useGetRequestHandler();
-  const { buttonLoading, submit } = usePostRequestHandler();
+  const { buttonLoading, submit } = usePostRequestHandler('patch');
 
   useEffect(() => {
     fetchData("/api/view-user");
@@ -51,18 +50,16 @@ const AccountComp = () => {
 
   const formSubmitHandler = async (formValues: any) => {
     const payload = {
-      ui_project_id: process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID,
-      ip_address: process.env.NEXT_PUBLIC_SERVER_IP,
-      primary_domain: PRIMARY_DOMAIN,
+      _id: data?._id,
       ...formValues,
     };
 
-    const data = await submit("/api/create-workspace", payload);
-    if (data?.success) {
-      const url = data.result.workspace_url as string;
-      const newUrl = "https://" + url;
-      window.open(newUrl, "_blank");
-    }
+    await submit(
+      "/api/update-user",
+      payload,
+      null,
+      () => fetchData("/api/view-user")
+    );
   };
   return !isLoaded ? (
     <PageLoader />

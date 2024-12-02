@@ -1,4 +1,4 @@
-import { getRequest, postRequest } from "@/api/preference/RequestService";
+import { getRequest, patchRequest, postRequest, putRequest } from "@/api/preference/RequestService";
 import Toast from "@/components/common/Toast";
 import Router from "next/router";
 import { useState } from "react";
@@ -11,8 +11,9 @@ import { useState } from "react";
  */
 
 export const usePostRequestHandler = (
+  method = 'post',
   successToast = true,
-  failToast = true
+  failToast = true,
 ) => {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -28,7 +29,10 @@ export const usePostRequestHandler = (
     setButtonLoading(true);
     let response;
     try {
-      const res = await postRequest(endPoint, payload || {});
+      const res =
+        method === "post"
+          ? await postRequest(endPoint, payload || {})
+          : await putRequest(endPoint, payload || {});
       if (res.data.success) {
         setData(res.data.result);
         setIsSuccess(true);
