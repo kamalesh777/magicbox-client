@@ -8,12 +8,16 @@ import {
 } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/index";
 
 const HeaderComp = () => {
   const router = useRouter()
   const pathname = usePathname()
   const { signOut } = useAuth();
   const {user, isLoaded} = useUser()
+
+  const userState = useSelector((state: RootState) => state?.user?.details)
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -64,7 +68,7 @@ const HeaderComp = () => {
               ) : (
                 <>
                   <Avatar alt={user?.fullName as string} src={user?.imageUrl} />
-                  <Box>{user?.firstName || "Unknown"}</Box>
+                  <Box>{userState?.name || user?.firstName || "Unknown"}</Box>
                 </>
               )}
             </Stack>
@@ -76,7 +80,7 @@ const HeaderComp = () => {
               className="mt-2"
             >
               <Link legacyBehavior href="/account" className="">
-                <MenuItem selected={pathname === '/account'}>
+                <MenuItem selected={pathname === "/account"}>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <ManageAccountsOutlined />
                     <Box>My Account</Box>

@@ -5,10 +5,12 @@ import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
 import {
   usePostRequestHandler,
 } from "@/hooks/requestHandler";
+import { RootState } from "@/store/index";
 import { useUser } from "@clerk/nextjs";
 import { Box, Grid2 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 interface PropTypes {
   data: {
@@ -21,21 +23,23 @@ interface PropTypes {
   };
 }
 
-const AccountForm = ({ data }: PropTypes) => {
+const AccountForm = () => {
+
   const { user } = useUser();
+  const userDetails = useSelector((state: RootState) => state.user.details)
 
   const { buttonLoading, submit } = usePostRequestHandler("put");
 
   useEffect(() => {
-    setValue("name", data?.name as string);
+    setValue("name", user?.fullName || userDetails?.name as string);
     setValue(
       "email",
-      user?.primaryEmailAddress?.emailAddress || (data?.email as string)
+      user?.primaryEmailAddress?.emailAddress || (userDetails?.email as string)
     );
-    setValue("phone", data?.phone as string);
-    setValue("address", data?.address as string);
-    setValue("state", data?.state as string);
-    setValue("pincode", data?.pincode as string);
+    setValue("phone", userDetails?.phone as string);
+    setValue("address", userDetails?.address as string);
+    setValue("state", userDetails?.state as string);
+    setValue("pincode", userDetails?.pincode as string);
   }, []);
 
   const {
@@ -64,7 +68,7 @@ const AccountForm = ({ data }: PropTypes) => {
 
   return (
       <form onSubmit={handleSubmit((values) => formSubmitHandler(values))}>
-        <h2>Update Account</h2>
+        <h3>Update Account</h3>
         <Box component={"p"} sx={{ color: "error.main" }} className="mb-4">
           *Note: Please provide valid details to avoid any issues later.
         </Box>

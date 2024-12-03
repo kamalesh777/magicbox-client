@@ -1,28 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useUser } from "@clerk/nextjs";
 import { Grid2, Card, CardContent } from "@mui/material";
 import PageLoader from "@/components/common/PageLoader";
 import { usePathname } from "next/navigation";
 import AccountForm from "./AccountForm";
 import AccountDetails from "./AccountDetails";
-import { useGetRequestHandler } from "@/hooks/requestHandler";
 
 
 
 const AccountComp = () => {
   const pathname = usePathname()
-
-  const { isLoading, data, fetchData } = useGetRequestHandler();
-
-  useEffect(() => {
-    fetchData("/api/view-user");
-  }, []);
+  const { isLoaded } = useUser();
 
   const isUpdateForm = pathname === "/account/update";
 
-  return isLoading ? (
+  return !isLoaded ? (
     <PageLoader />
   ) : (
     <div className="company-form">
@@ -31,11 +25,7 @@ const AccountComp = () => {
         <Grid2 size={6}>
           <Card>
             <CardContent>
-              {isUpdateForm ? (
-                <AccountForm {...{ data }} />
-              ) : (
-                <AccountDetails {...{ data }} />
-              )}
+              {isUpdateForm ? <AccountForm /> : <AccountDetails />}
             </CardContent>
           </Card>
         </Grid2>

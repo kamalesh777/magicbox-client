@@ -1,8 +1,8 @@
 "use client";
 
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
 import { Box, Container } from "@mui/material";
@@ -10,22 +10,33 @@ import HeaderComp from "./Header";
 import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
 import PageLoader from "./PageLoader";
+import { updateUserDetails, UserSliceTypes } from "@/store/slice/userSlice";
 
-const AuthWrapper = (props: PropsWithChildren) => {
-    const { isLoaded, isSignedIn } = useAuth();
+interface PropTypes extends PropsWithChildren {
+  userData: UserSliceTypes["details"];
+}
 
-    return !isLoaded ? (
-      <PageLoader />
-    ) : (
-      <>
-        {isSignedIn && <HeaderComp />}
-        <Box className={isSignedIn ? "main-layout" : ''}>{props.children}</Box>
-        <FooterComp />
-      </>
-    );
-  };
+const AuthWrapper = (props: PropTypes) => {
+  const { isLoaded, isSignedIn } = useAuth();
+  const dispatch = useDispatch();
 
-export default function MainLayout(props: PropsWithChildren) {
+  useEffect(() => {
+    dispatch(updateUserDetails(props.userData));
+  }, []);
+
+  return !isLoaded ? (
+    <PageLoader />
+  ) : (
+    <>
+      {isSignedIn && <HeaderComp />}
+      <Box className={isSignedIn ? "main-layout" : ""}>{props.children}</Box>
+      <FooterComp />
+    </>
+  );
+};
+
+export default function MainLayout(props: PropTypes) {
+  console.log("===props", props.userData)
   //  const themePalette = useSelector((state: RootState) => state.theme);
   return (
     <html lang="en">
@@ -35,7 +46,7 @@ export default function MainLayout(props: PropsWithChildren) {
             <ThemeWrapper>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <Container maxWidth={false} disableGutters>
-                <AuthWrapper>
+                <AuthWrapper userData={props.userData}>
                   {props.children}
                 </AuthWrapper>
               </Container>

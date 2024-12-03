@@ -55,7 +55,7 @@ const DashboardComp = () => {
 
   const WORKSPACE_FORM = (
     <form onSubmit={handleSubmit((values) => formSubmitHandler(values))}>
-      <h2>Create Workspace</h2>
+      <h3>Create Workspace</h3>
       <p className="mb-4">
         A workspace will help you to play the game with your team member
       </p>
