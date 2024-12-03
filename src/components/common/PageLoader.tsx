@@ -7,7 +7,6 @@ const PageLoader = ({ width='50%' }) => {
       container
       alignItems="center"
       justifyContent="center"
-      direction="column"
       className="vh-100 w-100"
     >
       <Box sx={{ width: width }}>

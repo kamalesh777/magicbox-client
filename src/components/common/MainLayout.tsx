@@ -19,7 +19,7 @@ const AuthWrapper = (props: PropsWithChildren) => {
     ) : (
       <>
         {isSignedIn && <HeaderComp />}
-        <Box className="main-layout">{props.children}</Box>
+        <Box className={isSignedIn ? "main-layout" : ''}>{props.children}</Box>
         <FooterComp />
       </>
     );
