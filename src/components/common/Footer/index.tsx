@@ -3,7 +3,7 @@ import React from 'react'
 
 const FooterComp = () => {
   return (
-    <Box className="footerWrapper" sx={{bgcolor: 'lightgrey'}}>
+    <Box className="footerWrapper" sx={{bgcolor: 'grey.100'}}>
       <Grid2
         container
         alignItems="center"

@@ -17,7 +17,7 @@ const AccountComp = () => {
   const isUpdateForm = pathname === "/account/update";
 
   return !isLoaded ? (
-    <PageLoader />
+      <PageLoader />
   ) : (
     <div className="company-form">
       {/* <Container> */}

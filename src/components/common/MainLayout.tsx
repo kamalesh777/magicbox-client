@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Provider, useDispatch } from "react-redux";
 import { store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Grid2 } from "@mui/material";
 import HeaderComp from "./Header";
 import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
@@ -23,18 +23,20 @@ const AuthWrapper = (props: PropsWithChildren) => {
   const {isLoading, data, fetchData} = useGetRequestHandler()
 
   useEffect(() => {
-    fetchData('/api/view-user')
+    if (isSignedIn) {
+      fetchData('/api/view-user')
+    }
     
-  }, []);
+  }, [isSignedIn]);
 
   useEffect(() => {
-    if (!isLoading) {
+    if ( data) {
       dispatch(updateUserDetails(data));
     }
-  }, [isLoading]);
+  }, [data]);
 
-  return !isLoaded ? (
-    <PageLoader />
+  return !isLoaded && isLoading ? (
+      <PageLoader />
   ) : (
     <>
       {isSignedIn && <HeaderComp />}
