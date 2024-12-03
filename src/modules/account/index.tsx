@@ -27,16 +27,18 @@ const AccountComp = () => {
   ) : (
     <div className="company-form">
       {/* <Container> */}
-      <Grid2 container alignContent="center" direction="column">
-        <Card>
-          <CardContent>
-            {isUpdateForm ? (
-              <AccountForm {...{ data }} />
-            ) : (
-              <AccountDetails {...{ data }} />
-            )}
-          </CardContent>
-        </Card>
+      <Grid2 container justifyContent="center">
+        <Grid2 size={6}>
+          <Card>
+            <CardContent>
+              {isUpdateForm ? (
+                <AccountForm {...{ data }} />
+              ) : (
+                <AccountDetails {...{ data }} />
+              )}
+            </CardContent>
+          </Card>
+        </Grid2>
       </Grid2>
       {/* </Container> */}
     </div>
