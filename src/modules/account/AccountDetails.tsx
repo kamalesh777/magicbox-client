@@ -44,7 +44,7 @@ const AccountDetails = () => {
         </Grid2>
       </Grid2>
       <Divider className="my-2" />
-      {filterItems?.map((obj: { key: string; value: string }) => (
+      {filterItems?.map((obj: { key: string; value: string|number }) => (
         <Grid2 container className="mb-2">
           <Grid2 size={4}>{startCase(obj?.key)}:</Grid2>
           <Grid2 size={8}>{obj?.value || EMPTY_PLACEHOLDER}</Grid2>

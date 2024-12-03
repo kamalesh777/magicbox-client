@@ -134,15 +134,15 @@ const DashboardComp = () => {
     <PageLoader />
   ) : (
     <div className="company-form">
-      <Container>
-        <Grid2 container offset={3} size={6}>
+      <Grid2 container justifyContent="center">
+        <Grid2 size={{ md: 8, sm: 12 }}>
           <Card>
             <CardContent>
               {!isSuccess ? WORKSPACE_FORM : <SuccessBoxComp />}
             </CardContent>
           </Card>
         </Grid2>
-      </Container>
+      </Grid2>
     </div>
   );
 };

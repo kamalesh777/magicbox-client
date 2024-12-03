@@ -12,16 +12,6 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
-interface PropTypes {
-  data: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    state?: string;
-    address?: string;
-    pincode?: string;
-  };
-}
 
 const AccountForm = () => {
 
@@ -36,10 +26,10 @@ const AccountForm = () => {
       "email",
       user?.primaryEmailAddress?.emailAddress || (userDetails?.email as string)
     );
-    setValue("phone", userDetails?.phone as string);
+    setValue("phone", userDetails?.phone as number);
     setValue("address", userDetails?.address as string);
     setValue("state", userDetails?.state as string);
-    setValue("pincode", userDetails?.pincode as string);
+    setValue("pincode", userDetails?.pincode as number);
   }, []);
 
   const {
@@ -51,16 +41,18 @@ const AccountForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
+      phone: NaN,
       address: "",
       state: "",
-      pincode: "",
+      pincode: NaN
     },
   });
 
   const formSubmitHandler = async (formValues: any) => {
     const payload = {
       ...formValues,
+      phone: Number(formValues.phone),
+      pincode: Number(formValues.pincode),
     };
 
     await submit("/api/update-user", payload, null);

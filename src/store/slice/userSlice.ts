@@ -7,10 +7,10 @@ export interface UserSliceTypes {
   details: {
     name?: string;
     email?: string;
-    phone?: string;
+    phone?: number;
     address?: string;
     state?: string;
-    pincode?: string;
+    pincode?: number;
   };
 };
 
@@ -21,10 +21,10 @@ const initialState: UserSliceTypes = {
   details: {
     name: "",
     email: "",
-    phone: "",
+    phone: NaN,
     address: "",
     state: "",
-    pincode: "",
+    pincode: NaN,
   },
 };
 

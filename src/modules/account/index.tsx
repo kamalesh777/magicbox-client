@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useUser } from "@clerk/nextjs";
-import { Grid2, Card, CardContent } from "@mui/material";
+import { Grid2, Card, CardContent, Container } from "@mui/material";
 import PageLoader from "@/components/common/PageLoader";
 import { usePathname } from "next/navigation";
 import AccountForm from "./AccountForm";
@@ -20,9 +20,8 @@ const AccountComp = () => {
       <PageLoader />
   ) : (
     <div className="company-form">
-      {/* <Container> */}
       <Grid2 container justifyContent="center">
-        <Grid2 size={6}>
+        <Grid2 size={{md: 6, sm: 12}}>
           <Card>
             <CardContent>
               {isUpdateForm ? <AccountForm /> : <AccountDetails />}
@@ -30,7 +29,6 @@ const AccountComp = () => {
           </Card>
         </Grid2>
       </Grid2>
-      {/* </Container> */}
     </div>
   );
 };
