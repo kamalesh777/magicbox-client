@@ -7,8 +7,7 @@ import {
 } from "@clerk/nextjs";
 
 import MainLayout from "@/components/common/MainLayout";
-import { fetchServerSideData } from "@/utils/fetchServerSideData ";
-import routesObj from "@/constants/ApiConstant";
+import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
   title: "Magicbox",
@@ -17,20 +16,17 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: PropsWithChildren) {
 
-  const data = await fetchServerSideData(routesObj["view-user"]);
-  console.log("===user data", data)
-
-  return (
-    <html lang="en">
-      <body>
-        <ClerkProvider dynamic>
-          <MainLayout {...{ userData: data?.result }}>{children}</MainLayout>
-        </ClerkProvider>
-      </body>
-    </html>
-  );
+    return (
+      <html lang="en">
+        <body>
+          <ClerkProvider dynamic>
+            <MainLayout>
+              {children}
+            </MainLayout>
+          </ClerkProvider>
+        </body>
+      </html>
+    );
 }

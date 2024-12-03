@@ -7,8 +7,6 @@ import { redirect } from "next/navigation";
 const Dashboard = async () => {
   const data = await fetchServerSideData(routesObj['view-workspace']);
 
-  console.log("=====data", data);
-
   if (data?.result !== null) {
     redirect('/account')
   }
