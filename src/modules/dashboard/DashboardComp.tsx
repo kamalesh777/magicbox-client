@@ -13,13 +13,18 @@ import {
   Grid2,
   InputAdornment,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SuccessBoxComp from "./SuccessBox";
+
+export type submitResponseType = {
+  workspace_url: string
+} | null
 
 const DashboardComp = () => {
   const { user, isLoaded } = useUser();
   const { buttonLoading, submit, isSuccess } = usePostRequestHandler();
+  const [workspaceData, setWorkspaceData] = useState<submitResponseType>(null);
 
   const {
     handleSubmit,
@@ -50,7 +55,8 @@ const DashboardComp = () => {
       ...formValues,
     };
 
-    await submit("/api/create-workspace", payload);
+    const result = await submit("/api/create-workspace", payload);
+    setWorkspaceData(result as unknown as submitResponseType);
   };
 
   const WORKSPACE_FORM = (
@@ -135,10 +141,14 @@ const DashboardComp = () => {
   ) : (
     <div className="company-form">
       <Grid2 container justifyContent="center">
-        <Grid2 size={{ md: 8, sm: 12 }}>
+        <Grid2 size={{ md: 6, sm: 12 }}>
           <Card>
             <CardContent>
-              {!isSuccess ? WORKSPACE_FORM : <SuccessBoxComp />}
+              {!isSuccess ? (
+                WORKSPACE_FORM
+              ) : (
+                <SuccessBoxComp {...{ data: workspaceData }} />
+              )}
             </CardContent>
           </Card>
         </Grid2>

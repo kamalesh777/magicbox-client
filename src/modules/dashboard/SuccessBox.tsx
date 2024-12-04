@@ -3,8 +3,13 @@ import { Box } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import Link from "next/link";
+import { submitResponseType } from "./DashboardComp";
 
-const SuccessBoxComp = () => {
+interface Proptypes {
+  data: submitResponseType;
+}
+
+const SuccessBoxComp = ({data}: Proptypes ) => {
   return (
     <div className="text-center p-3">
       <CheckCircleOutlineIcon
@@ -14,11 +19,14 @@ const SuccessBoxComp = () => {
         Successfully Created!
       </Box>
       <p className="mt-2">
-        To get started, please check your email for further details and take the
-        necessary actions to set up and personalize your workspace.
+        Your domain is ready, click the below button to visit your domain.
       </p>
-      <Link legacyBehavior={true} href={"/account"}>
-        <ButtonWrapper className="mt-3">Update address</ButtonWrapper>
+      <Link
+        legacyBehavior={true}
+        href={`https://${data?.workspace_url}`}
+        target="new"
+      >
+        <ButtonWrapper className="mt-3">Redirect Now!</ButtonWrapper>
       </Link>
     </div>
   );

@@ -5,6 +5,7 @@ import { red } from "@mui/material/colors";
 // Define a type for the slice state
 export interface UserSliceTypes {
   details: {
+    is_owner: boolean | undefined;
     name?: string;
     email?: string;
     phone?: number;
@@ -19,6 +20,7 @@ export interface UserSliceTypes {
 // Define the initial state using that type
 const initialState: UserSliceTypes = {
   details: {
+    is_owner: false,
     name: "",
     email: "",
     phone: NaN,

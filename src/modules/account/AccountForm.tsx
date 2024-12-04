@@ -15,13 +15,13 @@ import { useSelector } from "react-redux";
 
 const AccountForm = () => {
 
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const userDetails = useSelector((state: RootState) => state.user.details)
 
   const { buttonLoading, submit } = usePostRequestHandler("put");
 
   useEffect(() => {
-    setValue("name", user?.fullName || userDetails?.name as string);
+    setValue("name", user?.fullName || (userDetails?.name as string));
     setValue(
       "email",
       user?.primaryEmailAddress?.emailAddress || (userDetails?.email as string)
@@ -30,7 +30,7 @@ const AccountForm = () => {
     setValue("address", userDetails?.address as string);
     setValue("state", userDetails?.state as string);
     setValue("pincode", userDetails?.pincode as number);
-  }, []);
+  }, [userDetails]);
 
   const {
     handleSubmit,
@@ -55,7 +55,7 @@ const AccountForm = () => {
       pincode: Number(formValues.pincode),
     };
 
-    await submit("/api/update-user", payload, null);
+    await submit("/api/update-user", payload, '/account');
   };
 
   return (

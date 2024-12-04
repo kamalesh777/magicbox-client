@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { Grid2, Container, Avatar, Stack, Menu, MenuItem, Box, Skeleton } from "@mui/material";
+import { Grid2, Container, Avatar, Stack, Menu, MenuItem, Box, Skeleton, Button } from "@mui/material";
 import {
   SettingsOutlined,
   ManageAccountsOutlined,
   PowerSettingsNewOutlined,
+  ArrowDownward,
+  KeyboardArrowDown,
 } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/index";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 
 const HeaderComp = () => {
   const router = useRouter()
@@ -50,15 +53,21 @@ const HeaderComp = () => {
     >
       <Container disableGutters>
         <Grid2 container>
-          <Grid2 size={6}>
-            <h2>Magicbox.</h2>
+          <Grid2>
+            <Link href="/" legacyBehavior>
+              <Box component="h2" className="cursor-pointer">
+                Magicbox.
+              </Box>
+            </Link>
           </Grid2>
-          <Grid2 size={6} className="d-flex justify-content-end">
+          <Grid2 size="grow" className="d-flex justify-content-end">
+            {/* <ButtonWrapper className="mr-3">Play Now!</ButtonWrapper> */}
             <Stack
               direction="row"
               alignItems="center"
               spacing={1}
               onClick={handleClick}
+              className="cursor-pointer"
             >
               {!isLoaded ? (
                 <>
@@ -69,6 +78,7 @@ const HeaderComp = () => {
                 <>
                   <Avatar alt={user?.fullName as string} src={user?.imageUrl} />
                   <Box>{userState?.name || user?.firstName || "Unknown"}</Box>
+                  <KeyboardArrowDown />
                 </>
               )}
             </Stack>
@@ -80,14 +90,17 @@ const HeaderComp = () => {
               className="mt-2"
             >
               <Link legacyBehavior href="/account" className="">
-                <MenuItem selected={pathname === "/account"}>
+                <MenuItem
+                  selected={pathname === "/account"}
+                  disabled={!userState?.is_owner}
+                >
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <ManageAccountsOutlined />
                     <Box>My Account</Box>
                   </Stack>
                 </MenuItem>
               </Link>
-              <MenuItem>
+              <MenuItem disabled={!userState?.is_owner}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <SettingsOutlined />
                   <Box>Setting</Box>
