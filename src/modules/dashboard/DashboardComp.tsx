@@ -55,9 +55,11 @@ const DashboardComp = () => {
       ...formValues,
     };
 
-    const result = await submit("/api/create-workspace", payload);
-    setWorkspaceData(result as unknown as submitResponseType);
+    const res = await submit("/api/create-workspace", payload);
+    setWorkspaceData(res?.result as unknown as submitResponseType);
   };
+
+  console.log("====workspace", workspaceData)
 
   const WORKSPACE_FORM = (
     <form onSubmit={handleSubmit((values) => formSubmitHandler(values))}>
