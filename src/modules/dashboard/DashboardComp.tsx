@@ -59,8 +59,6 @@ const DashboardComp = () => {
     setWorkspaceData(res?.result as unknown as submitResponseType);
   };
 
-  console.log("====workspace", workspaceData)
-
   const WORKSPACE_FORM = (
     <form onSubmit={handleSubmit((values) => formSubmitHandler(values))}>
       <h3>Create Workspace</h3>

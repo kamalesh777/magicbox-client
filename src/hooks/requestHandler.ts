@@ -1,6 +1,6 @@
-import { getRequest, patchRequest, postRequest, putRequest } from "@/api/preference/RequestService";
+import { getRequest, postRequest, putRequest } from "@/api/preference/RequestService";
 import Toast from "@/components/common/Toast";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 /**
@@ -15,6 +15,7 @@ export const usePostRequestHandler = (
   successToast = true,
   failToast = true,
 ) => {
+  const router = useRouter()
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [data, setData] = useState<any>();
@@ -38,7 +39,7 @@ export const usePostRequestHandler = (
         setIsSuccess(true);
 
         successToast ? Toast("success", res.data.message) : null;
-        goBack && Router.push(goBack);
+        goBack && router.push(goBack);
         callBack && callBack();
         // added for get the data after submit
         response = res.data;
