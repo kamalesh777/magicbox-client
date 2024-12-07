@@ -26,10 +26,10 @@ const AccountForm = () => {
       "email",
       user?.primaryEmailAddress?.emailAddress || (userDetails?.email as string)
     );
-    setValue("phone", userDetails?.phone as number);
+    setValue("phone", userDetails?.phone as string);
     setValue("address", userDetails?.address as string);
     setValue("state", userDetails?.state as string);
-    setValue("pincode", userDetails?.pincode as number);
+    setValue("pincode", userDetails?.pincode as (string));
   }, [userDetails]);
 
   const {
@@ -41,10 +41,10 @@ const AccountForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      phone: NaN,
+      phone: "",
       address: "",
       state: "",
-      pincode: NaN
+      pincode: ""
     },
   });
 

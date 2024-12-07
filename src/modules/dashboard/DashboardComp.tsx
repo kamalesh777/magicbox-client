@@ -109,8 +109,8 @@ const DashboardComp = () => {
               message: "Please enter up to 6 letters",
             },
             pattern: {
-              value: /^[a-z]{3,6}$/,
-              message: "Please enter lowercase letters only",
+              value: /^[a-zA-Z0-9]{3,6}$/,
+              message: "Please start with a lowercase letter and use only lowercase letters or numbers, 4 to 7 characters in total.",
             },
           }}
           textFieldProps={{

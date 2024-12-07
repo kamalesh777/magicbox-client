@@ -8,10 +8,10 @@ export interface UserSliceTypes {
     is_owner: boolean | undefined;
     name?: string;
     email?: string;
-    phone?: number;
+    phone?: string;
     address?: string;
     state?: string;
-    pincode?: number;
+    pincode?: string;
   };
 };
 
@@ -23,10 +23,10 @@ const initialState: UserSliceTypes = {
     is_owner: false,
     name: "",
     email: "",
-    phone: NaN,
+    phone: "",
     address: "",
     state: "",
-    pincode: NaN,
+    pincode: "",
   },
 };
 
