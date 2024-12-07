@@ -100,12 +100,14 @@ const HeaderComp = () => {
                   </Stack>
                 </MenuItem>
               </Link>
-              <MenuItem disabled={!userState?.is_owner}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <SettingsOutlined />
-                  <Box>Setting</Box>
-                </Stack>
-              </MenuItem>
+              <Link legacyBehavior href="/setting" className="">
+                <MenuItem disabled={!userState?.is_owner}>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <SettingsOutlined />
+                    <Box>Setting</Box>
+                  </Stack>
+                </MenuItem>
+              </Link>
 
               <MenuItem onClick={handleSignOut}>
                 <Stack

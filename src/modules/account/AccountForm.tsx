@@ -1,5 +1,6 @@
 "use-client";
 
+import PageLoader from "@/components/common/PageLoader";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
 import {

@@ -4,6 +4,7 @@ import { red } from "@mui/material/colors";
 
 // Define a type for the slice state
 export interface UserSliceTypes {
+  loading?: boolean
   details: {
     is_owner: boolean | undefined;
     name?: string;
@@ -19,6 +20,7 @@ export interface UserSliceTypes {
 
 // Define the initial state using that type
 const initialState: UserSliceTypes = {
+  loading: true,
   details: {
     is_owner: false,
     name: "",
@@ -37,6 +39,7 @@ export const userDetailSlice = createSlice({
   reducers: {
     updateUserDetails: (state, action: PayloadAction<UserSliceTypes['details']>) => {
       state.details = { ...action.payload };
+      state.loading = false
     },
   },
 });

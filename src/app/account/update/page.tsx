@@ -1,12 +1,20 @@
-import React from "react";
-import routesObj from "@/constants/ApiConstant";
+'use client'
+
+import React, { useEffect } from "react";
 import AccountComp from "@/modules/account";
-import { fetchServerSideData } from "@/utils/fetchServerSideData ";
+import { RootState } from "@/store/index";
+import { redirect } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const AccountUpdatePage = async () => {
-  // const data = await fetchServerSideData(routesObj["view-user"]);
+  const userState = useSelector((state: RootState) => state?.user?.details)
 
-  // console.log("=====data", data);
+  useEffect(() => {
+    if (!userState?.is_owner) {
+      redirect('/not-found')
+    }
+
+  }, [userState])
   return <AccountComp />;
 };
 
