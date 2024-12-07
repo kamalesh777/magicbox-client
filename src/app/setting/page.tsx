@@ -11,7 +11,7 @@ const SettingPage = () => {
 
   useEffect(() => {
     if (!userState?.is_owner) {
-      // redirect('/not-found')
+      redirect('/not-found')
     }
 
   }, [userState])

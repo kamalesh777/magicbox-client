@@ -10,6 +10,8 @@ const AccountPage = async () => {
 
   const userState = useSelector((state: RootState) => state?.user?.details)
 
+  console.log("===userState", userState)
+
   useEffect(() => {
     if (!userState?.is_owner) {
       redirect('/not-found')
