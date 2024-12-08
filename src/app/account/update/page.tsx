@@ -12,11 +12,12 @@ const AccountUpdatePage = async () => {
     (state: RootState) => state?.user?.loading
   );
 
-  console.log("===userState", userState);
+  
 
   useEffect(() => {
     if (!userStateLoading && !userState?.is_owner) {
-      redirect("/not-found");
+      // redirect("/not-found");
+      console.log("===userState", userState);
     }
   }, [userStateLoading]);
   return <AccountComp />;
