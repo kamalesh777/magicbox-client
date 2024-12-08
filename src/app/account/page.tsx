@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import AccountComp from '@/modules/account';
 import { RootState } from '@/store/index';
 import { redirect } from 'next/navigation';
@@ -12,7 +12,7 @@ const AccountPage = async () => {
 
   console.log("===userState", userState)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!userState?.is_owner) {
       // redirect('/not-found')
     }
