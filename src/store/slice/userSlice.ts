@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { red } from "@mui/material/colors";
 
 // Define a type for the slice state
 export interface UserSliceTypes {
