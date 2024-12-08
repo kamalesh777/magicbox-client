@@ -3,10 +3,11 @@
 import React, { useEffect } from "react";
 import AccountComp from "@/modules/account";
 import { RootState } from "@/store/index";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const AccountUpdatePage = async () => {
+  const router = useRouter();
   const userState = useSelector((state: RootState) => state?.user?.details);
   const userStateLoading = useSelector(
     (state: RootState) => state?.user?.loading
@@ -16,8 +17,7 @@ const AccountUpdatePage = async () => {
 
   useEffect(() => {
     if (!userStateLoading && !userState?.is_owner) {
-      // redirect("/not-found");
-      console.log("===userState", userState);
+      router.push("/not-found");
     }
   }, [userStateLoading]);
   return <AccountComp />;
