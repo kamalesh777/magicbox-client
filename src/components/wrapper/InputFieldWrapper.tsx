@@ -23,14 +23,13 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors, text
             value: required || false,
             message: "Field is required",
           }}),
-          validate: (value) => {
-            console.log("===formValue", value)
-            const trimmed = value && value.trim();
-            if (!trimmed) {
-              return "Please enter valid input";
-            }
-            return true; // Valid input
-          },
+          // validate: (value) => {
+          //   const trimmed = value && value.trim();
+          //   if (!trimmed) {
+          //     return "Please enter valid input";
+          //   }
+          //   return true; // Valid input
+          // },
           ...rules,
         }}
         render={({ field }) => (
