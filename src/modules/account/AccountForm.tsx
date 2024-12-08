@@ -58,8 +58,10 @@ const AccountForm = () => {
       pincode: Number(formValues.pincode),
     };
 
-    dispatch(updateUserDetails({...userDetails, ...payload}))
-    await submit("/api/update-user", payload, "/account");
+    
+    await submit("/api/update-user", payload, "/account", 
+      () => dispatch(updateUserDetails({ ...userDetails, ...payload }))
+    );
 
   };
 
