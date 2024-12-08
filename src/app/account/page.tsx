@@ -5,6 +5,7 @@ import AccountComp from '@/modules/account';
 import { RootState } from '@/store/index';
 import { useRouter } from "next/navigation";
 import { useSelector } from 'react-redux';
+import PageLoader from '@/components/common/PageLoader';
 
 const AccountPage = () => {
   const router = useRouter();
@@ -17,9 +18,7 @@ const AccountPage = () => {
     }
   }, [userStateLoading]);
 
-  return (
-    <AccountComp />
-  );
+  return userStateLoading ? <PageLoader /> : <AccountComp />;
 }
 
 export default AccountPage
