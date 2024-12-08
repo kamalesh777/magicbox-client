@@ -24,8 +24,7 @@ const InputFieldWrapper = ({ label, name, rules, required, control, errors, text
             message: "Field is required",
           }}),
           validate: (value) => {
-            console.log("===value", value)
-            const trimmed = value && value.trim();
+            const trimmed = String(value).trim();
             if (!trimmed) {
               return "Please enter valid input";
             }
