@@ -9,7 +9,7 @@ export const store = configureStore({
     theme: themeReducer,
     user: userDetailReducer,
   },
-  devTools: ENVIRONMENT === 'development',
+  // devTools: ENVIRONMENT === 'development',
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
