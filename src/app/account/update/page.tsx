@@ -13,13 +13,12 @@ const AccountUpdatePage = async () => {
     (state: RootState) => state?.user?.loading
   );
 
-  
-
   useEffect(() => {
     if (!userStateLoading && !userState?.is_owner) {
       router.push("/not-found");
     }
-  }, [userStateLoading]);
+  }, [userStateLoading, userState, router]);
+  
   return <AccountComp />;
 };
 

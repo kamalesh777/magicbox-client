@@ -15,7 +15,7 @@ const AccountPage = async () => {
     if (!userStateLoading && !userState?.is_owner) {
       router.push("/not-found");
     }
-  }, [userStateLoading]);
+  }, [userStateLoading, userState, router]);
 
   return (
     <AccountComp />
