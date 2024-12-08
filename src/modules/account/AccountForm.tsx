@@ -7,16 +7,17 @@ import {
   usePostRequestHandler,
 } from "@/hooks/requestHandler";
 import { RootState } from "@/store/index";
+import { updateUserDetails } from "@/store/slice/userSlice";
 import { useUser } from "@clerk/nextjs";
 import { Box, Grid2 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 
 const AccountForm = () => {
-
-  const { user, isLoaded } = useUser();
+  const dispatch = useDispatch()
+  const { user } = useUser();
   const userDetails = useSelector((state: RootState) => state.user.details)
 
   const { buttonLoading, submit } = usePostRequestHandler("put");
@@ -56,7 +57,10 @@ const AccountForm = () => {
       pincode: Number(formValues.pincode),
     };
 
-    await submit("/api/update-user", payload, '/account');
+    await submit("/api/update-user", payload, "/account", () =>
+      dispatch(updateUserDetails(payload))
+    );
+
   };
 
   return (
