@@ -143,11 +143,11 @@ const AccountForm = () => {
             },
           }}
         />
-        <Stack>
+        <Stack direction="row" spacing={1}>
           <Link href="/account" legacyBehavior>
-            <ButtonWrapper>Go Back</ButtonWrapper>
+            <ButtonWrapper variant="outlined" className="w-50">Go Back</ButtonWrapper>
           </Link>
-          <ButtonWrapper loading={buttonLoading} type="submit">
+          <ButtonWrapper loading={buttonLoading} type="submit" className="w-50">
             Update Now!
           </ButtonWrapper>
         </Stack>

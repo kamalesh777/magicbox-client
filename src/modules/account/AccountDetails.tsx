@@ -31,6 +31,7 @@ const AccountDetails = () => {
   ]);
 
   return (
+    userDetails &&
     <Box>
       <Grid2 container>
         <Grid2 size={8}>
