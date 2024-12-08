@@ -6,7 +6,7 @@ import { RootState } from '@/store/index';
 import { useRouter } from "next/navigation";
 import { useSelector } from 'react-redux';
 
-const AccountPage = async () => {
+const AccountPage = () => {
   const router = useRouter();
   const userState = useSelector((state: RootState) => state?.user?.details)
   const userStateLoading = useSelector((state: RootState) => state?.user?.loading);
@@ -15,7 +15,7 @@ const AccountPage = async () => {
     if (!userStateLoading && !userState?.is_owner) {
       router.push("/not-found");
     }
-  }, [userStateLoading, userState, router]);
+  }, [userStateLoading]);
 
   return (
     <AccountComp />
