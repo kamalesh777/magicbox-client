@@ -30,8 +30,8 @@ const AuthWrapper = (props: PropsWithChildren) => {
   }, [isSignedIn]);
 
   useEffect(() => {
-    dispatch(updateUserDetails(data));
-  }, [data]);
+    if (!isLoading) dispatch(updateUserDetails(data));
+  }, [isLoading]);
 
   return !isLoaded && isLoading ? (
       <PageLoader />
