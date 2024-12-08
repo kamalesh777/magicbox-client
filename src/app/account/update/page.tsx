@@ -10,8 +10,8 @@ const AccountUpdatePage = async () => {
   const userState = useSelector((state: RootState) => state?.user?.details)
 
   useLayoutEffect(() => {
-    if (!userState?.is_owner) {
-      // redirect('/not-found')
+    if (userState.email && !userState?.is_owner) {
+      redirect('/not-found')
     }
 
   }, [userState])

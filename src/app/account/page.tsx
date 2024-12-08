@@ -13,11 +13,11 @@ const AccountPage = async () => {
   console.log("===userState", userState)
 
   useLayoutEffect(() => {
-    if (!userState?.is_owner) {
-      // redirect('/not-found')
+    if (userState.email && !userState?.is_owner) {
+      redirect("/not-found");
     }
-
-  }, [userState])
+  }, [userState]);
+  
   return (
     <AccountComp />
   );
