@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { Grid2, Container, Avatar, Stack, Menu, MenuItem, Box, Skeleton, Button } from "@mui/material";
+import {
+  Grid2,
+  Container,
+  Avatar,
+  Stack,
+  Menu,
+  MenuItem,
+  Box,
+  Skeleton,
+  Button,
+} from "@mui/material";
 import {
   SettingsOutlined,
   ManageAccountsOutlined,
@@ -16,13 +26,15 @@ import { RootState } from "@/store/index";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 
 const HeaderComp = () => {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
   const { signOut } = useAuth();
-  const {user, isLoaded} = useUser()
+  const { user, isLoaded } = useUser();
 
-  const userState = useSelector((state: RootState) => state?.user?.details)
-  const userStateLoading = useSelector((state: RootState) => state?.user?.loading);
+  const userState = useSelector((state: RootState) => state?.user?.details);
+  const userStateLoading = useSelector(
+    (state: RootState) => state?.user?.loading
+  );
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -37,8 +49,9 @@ const HeaderComp = () => {
 
   // signed out function to redirect to the sign in page
   const handleSignOut = async () => {
-    const signInUrl = process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/auth/sign-in';
-    
+    const signInUrl =
+      process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/auth/sign-in";
+
     try {
       await signOut(); // Continue sign-out in the background
       router.push(signInUrl);
@@ -91,28 +104,26 @@ const HeaderComp = () => {
               disableAutoFocusItem
               className="mt-2"
             >
+              <Link legacyBehavior href="/account" className="">
+                <MenuItem
+                  selected={pathname === "/account"}
+                  // disabled={!userState?.is_owner}
+                >
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <ManageAccountsOutlined />
+                    <Box>My Account</Box>
+                  </Stack>
+                </MenuItem>
+              </Link>
               {userState?.is_owner && (
-                <>
-                  <Link legacyBehavior href="/account" className="">
-                    <MenuItem
-                      selected={pathname === "/account"}
-                      // disabled={!userState?.is_owner}
-                    >
-                      <Stack direction="row" alignItems="center" spacing={1}>
-                        <ManageAccountsOutlined />
-                        <Box>My Account</Box>
-                      </Stack>
-                    </MenuItem>
-                  </Link>
-                  <Link legacyBehavior href="/setting" className="">
-                    <MenuItem>
-                      <Stack direction="row" alignItems="center" spacing={1}>
-                        <SettingsOutlined />
-                        <Box>Setting</Box>
-                      </Stack>
-                    </MenuItem>
-                  </Link>
-                </>
+                <Link legacyBehavior href="/setting" className="">
+                  <MenuItem>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <SettingsOutlined />
+                      <Box>Setting</Box>
+                    </Stack>
+                  </MenuItem>
+                </Link>
               )}
               <Link legacyBehavior href="/play" className="">
                 <MenuItem>
