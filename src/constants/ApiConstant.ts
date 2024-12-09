@@ -9,7 +9,7 @@ const routesObj = {
 
   "view-user": `${BACKEND_API_SERVICE}/user/view-user`,
   "update-user": `${BACKEND_API_SERVICE}/user/update-user`,
-  "except-me": `${BACKEND_API_SERVICE}/user/except-me`,
+  "except-me": `${BACKEND_API_SERVICE}/user/list-except-me`,
 };
 
 export default routesObj;
