@@ -7,6 +7,7 @@ import {
   PowerSettingsNewOutlined,
   ArrowDownward,
   KeyboardArrowDown,
+  Gamepad,
 } from "@mui/icons-material";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,6 +22,7 @@ const HeaderComp = () => {
   const {user, isLoaded} = useUser()
 
   const userState = useSelector((state: RootState) => state?.user?.details)
+  const userStateLoading = useSelector((state: RootState) => state?.user?.loading);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -69,7 +71,7 @@ const HeaderComp = () => {
               onClick={handleClick}
               className="cursor-pointer"
             >
-              {!isLoaded ? (
+              {userStateLoading ? (
                 <>
                   <Skeleton variant="circular" width={40} height={40} />
                   <Skeleton variant="rectangular" width={100} height={20} />
@@ -89,26 +91,37 @@ const HeaderComp = () => {
               disableAutoFocusItem
               className="mt-2"
             >
-              <Link legacyBehavior href="/account" className="">
-                <MenuItem
-                  selected={pathname === "/account"}
-                  disabled={!userState?.is_owner}
-                >
+              {userState?.is_owner && (
+                <>
+                  <Link legacyBehavior href="/account" className="">
+                    <MenuItem
+                      selected={pathname === "/account"}
+                      // disabled={!userState?.is_owner}
+                    >
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <ManageAccountsOutlined />
+                        <Box>My Account</Box>
+                      </Stack>
+                    </MenuItem>
+                  </Link>
+                  <Link legacyBehavior href="/setting" className="">
+                    <MenuItem>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <SettingsOutlined />
+                        <Box>Setting</Box>
+                      </Stack>
+                    </MenuItem>
+                  </Link>
+                </>
+              )}
+              <Link legacyBehavior href="/play" className="">
+                <MenuItem>
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <ManageAccountsOutlined />
-                    <Box>My Account</Box>
+                    <Gamepad />
+                    <Box>Play Now</Box>
                   </Stack>
                 </MenuItem>
               </Link>
-              <Link legacyBehavior href="/setting" className="">
-                <MenuItem disabled={!userState?.is_owner}>
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <SettingsOutlined />
-                    <Box>Setting</Box>
-                  </Stack>
-                </MenuItem>
-              </Link>
-
               <MenuItem onClick={handleSignOut}>
                 <Stack
                   sx={{ color: (theme) => theme.palette.error.main }}

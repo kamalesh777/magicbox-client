@@ -26,6 +26,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.2",
     "react-redux": "^9.1.2",
+    "rn-scratch-card": "^1.2.3",
     "sass": "^1.81.0"
   },
   "devDependencies": {
