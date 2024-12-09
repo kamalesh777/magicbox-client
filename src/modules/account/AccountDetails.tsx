@@ -52,7 +52,7 @@ const AccountDetails = () => {
           <Grid2 size={4}>{startCase(obj?.key)}:</Grid2>
           <Grid2 size={8}>{obj?.value as string || EMPTY_PLACEHOLDER}</Grid2>
         </Grid2>
-      ))) : <p>Update your details using the pencil icon</p>}
+      ))) : <p>No details added yet, update your details using the pencil icon</p>}
     </Box>
   );
 }

@@ -4,7 +4,6 @@ import React from 'react'
 
 const PlayPage = async () => {
   const allUsers = await fetchServerSideData(routesObj["except-me"]);
-  console.log("===", allUsers);
   return <div>{JSON.stringify(allUsers)}</div>;
 }
 
