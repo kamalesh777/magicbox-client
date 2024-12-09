@@ -46,12 +46,13 @@ const AccountDetails = () => {
         </Grid2>
       </Grid2>
       <Divider className="my-2" />
-      {filterItems?.map((obj: { key: string; value: unknown }) => (
+      {filterItems?.length > 0 ? (
+        filterItems?.map((obj: { key: string; value: unknown }) => (
         <Grid2 container className="mb-2">
           <Grid2 size={4}>{startCase(obj?.key)}:</Grid2>
           <Grid2 size={8}>{obj?.value as string || EMPTY_PLACEHOLDER}</Grid2>
         </Grid2>
-      ))}
+      ))) : <p>Update your details using the pencil icon</p>}
     </Box>
   );
 }
