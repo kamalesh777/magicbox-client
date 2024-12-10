@@ -11,7 +11,7 @@ import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
 import PageLoader from "./PageLoader";
 import { updateUserDetails, UserSliceTypes } from "@/store/slice/userSlice";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface PropTypes extends PropsWithChildren {
   userData: UserSliceTypes["details"];
@@ -20,13 +20,29 @@ interface PropTypes extends PropsWithChildren {
 const AuthWrapper = (props: PropTypes) => {
   const {userData, children} = props
 
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn, signOut } = useAuth();
   const pathname = usePathname()
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(updateUserDetails(userData));
-    
+    if (window !== undefined && !!userData) {
+      const host = window.location.host;
+      const { workspace_url, created_by } = userData;
+      if (workspace_url !== host) {
+        const redirectUrl = workspace_url?.startsWith("http")
+          ? workspace_url
+          : `https://${workspace_url}`;
+        
+        signOut() // before redirect signout this user
+        return router.replace(redirectUrl as string);
+      }
+      if (created_by) {
+        return router.push("/account");
+      }
+    }
+
   }, [userData]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes('/logout')

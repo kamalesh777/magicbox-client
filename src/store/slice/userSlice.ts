@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 // Define a type for the slice state
 export interface UserSliceTypes {
-  loading?: boolean
+  loading?: boolean;
   details: {
     is_owner: boolean | undefined;
     name?: string;
@@ -12,7 +12,8 @@ export interface UserSliceTypes {
     address?: string;
     state?: string;
     pincode?: string;
-    workspace_url?: string
+    workspace_url?: string;
+    created_by?: string
   };
 };
 

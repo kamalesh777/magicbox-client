@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: PropsWithChildren) {
+
   let result; // Declare result variable to store user data
   
   try {
