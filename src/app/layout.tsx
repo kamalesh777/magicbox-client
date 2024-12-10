@@ -8,10 +8,7 @@ import MainLayout from "@/components/common/MainLayout";
 import { PropsWithChildren } from "react";
 import routesObj from "@/constants/ApiConstant";
 import { fetchServerSideData } from "@/utils/fetchServerSideData ";
-import { headers } from "next/headers";
-import { permanentRedirect, redirect } from "next/navigation";
 import { BRAND_NAME } from "@/constants/AppConstant";
-import RedirectHandler from "@/components/common/RedirectHandler";
 
 export const metadata: Metadata = {
   title: BRAND_NAME || "Magicbox",
@@ -20,22 +17,19 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   let result; // Declare result variable to store user data
-
-  const headersList = headers(); // Fetch headers
-  const host = headersList.get("host"); // Get host from headers
   
   try {
     // Fetch server-side data
     const res = await fetchServerSideData(routesObj["view-user"]);
-
     // Check if the response was successful
     if (res.success) {
-      result = res.result;
+      result = await res.result;
     }
   } catch (error) {
     console.error("Error in RootLayout:", error);
     // Handle errors gracefully or redirect to an error page if needed
   }
+
   return (
     <html lang="en">
       <body>

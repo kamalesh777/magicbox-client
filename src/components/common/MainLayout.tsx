@@ -18,13 +18,15 @@ interface PropTypes extends PropsWithChildren {
 }
 
 const AuthWrapper = (props: PropTypes) => {
+  const {userData, children} = props
+  
   const { isLoaded, isSignedIn } = useAuth();
   const pathname = usePathname()
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isLoaded) dispatch(updateUserDetails(props.userData));
-  }, [isLoaded]);
+    dispatch(updateUserDetails(userData));
+  }, [userData]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes('/logout')
 
@@ -34,7 +36,7 @@ const AuthWrapper = (props: PropTypes) => {
     <>
       {isLoggedinRoute && <HeaderComp />}
       <Box className={isLoggedinRoute ? "main-layout" : ""}>
-        {props.children}
+        {children}
       </Box>
       <FooterComp />
     </>
@@ -44,6 +46,7 @@ const AuthWrapper = (props: PropTypes) => {
 
 
 export default function MainLayout(props: PropTypes) {
+  console.log("===userData", props.userData)
   //  const themePalette = useSelector((state: RootState) => state.theme);
   return (
     <html lang="en">

@@ -52,6 +52,8 @@ const HeaderComp = () => {
     router.push('/logout');
   };
 
+  console.log("===userState", userState);
+
   return (
     <Box
       className="header-wrapper"
