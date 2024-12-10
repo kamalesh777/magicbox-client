@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { Box, Card, CardContent, Grid2 } from "@mui/material";
+import ButtonWrapper from "../wrapper/ButtonWrapper";
+import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 interface PropTypes {
@@ -10,19 +13,30 @@ interface PropTypes {
 }
 
 export default function RedirectHandler(result: PropTypes) {
-  const router = useRouter();
-  const {workspace_url, host, is_owner} = result
-  useEffect(() => {
-    // Perform client-side navigation using Router.push
-    if (workspace_url && workspace_url !== host) {
-      const targetUrl = workspace_url.startsWith("http")
-        ? workspace_url
-        : `https://${workspace_url}`;
-      router.push(targetUrl);
-    } else if (is_owner === false) {
-      router.push("/account");
-    }
-  }, [workspace_url, is_owner, host, router]);
+  const router = useRouter()
+  const { signOut } = useAuth()
+  const { workspace_url } = result;
+  const targetUrl = workspace_url?.startsWith("http") ? workspace_url : `https://${workspace_url}`;
 
-  return null; // Component doesn't render any visible output
+  const redirectFunc = () => {
+    router.push(targetUrl)
+    // signOut();
+  }
+
+  return (
+    <div className="company-form">
+      <Grid2 container  alignItems="center" justifyContent="center">
+        <Grid2 size={6}>
+          <Card>
+            <CardContent>
+              <Box className="text-center">
+                <p>You are not belong this current workspace, please click below to visit your workspace {targetUrl}</p>
+                <ButtonWrapper className="mt-3" onClick={redirectFunc}>Redirect</ButtonWrapper>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid2>
+      </Grid2>
+    </div>
+  )
 }

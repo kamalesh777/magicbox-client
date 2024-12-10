@@ -31,18 +31,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     // Check if the response was successful
     if (res.success) {
       result = res.result;
-
-      // Redirect if workspace_url does not match the host
-      // if (result?.workspace_url !== host) {
-      //   console.log("====code work")
-      //   const redirectUrl = `https://${result.workspace_url}`;
-      //   return permanentRedirect(redirectUrl);
-      // }
-
-      // // Redirect if the user is not the owner
-      // if (result?.hasOwnProperty('is_owner')) {
-      //   redirect("/account");
-      // }
     }
   } catch (error) {
     console.error("Error in RootLayout:", error);
@@ -52,8 +40,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body>
         <ClerkProvider dynamic>
-          <RedirectHandler {...{...result, host}} />
-          <MainLayout userData={result}>{children}</MainLayout>
+          <MainLayout userData={result}>
+            {(!!result && result?.workspace_url !== host) ? <RedirectHandler {...{...result}} /> : children}
+          </MainLayout>
         </ClerkProvider>
       </body>
     </html>
