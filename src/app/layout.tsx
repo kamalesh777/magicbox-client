@@ -11,6 +11,7 @@ import { fetchServerSideData } from "@/utils/fetchServerSideData ";
 import { headers } from "next/headers";
 import { permanentRedirect, redirect } from "next/navigation";
 import { BRAND_NAME } from "@/constants/AppConstant";
+import RedirectHandler from "@/components/common/RedirectHandler";
 
 export const metadata: Metadata = {
   title: BRAND_NAME || "Magicbox",
@@ -20,10 +21,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
   let result; // Declare result variable to store user data
 
+  const headersList = headers(); // Fetch headers
+  const host = headersList.get("host"); // Get host from headers
+  
   try {
-    const headersList = headers(); // Fetch headers
-    const host = headersList.get("host"); // Get host from headers
-
     // Fetch server-side data
     const res = await fetchServerSideData(routesObj["view-user"]);
 
@@ -32,16 +33,16 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       result = res.result;
 
       // Redirect if workspace_url does not match the host
-      if (result?.workspace_url !== host) {
-        console.log("====code work")
-        const redirectUrl = `https://${result.workspace_url}`;
-        permanentRedirect(redirectUrl);
-      }
+      // if (result?.workspace_url !== host) {
+      //   console.log("====code work")
+      //   const redirectUrl = `https://${result.workspace_url}`;
+      //   return permanentRedirect(redirectUrl);
+      // }
 
-      // Redirect if the user is not the owner
-      if (result?.hasOwnProperty('is_owner')) {
-        redirect("/account");
-      }
+      // // Redirect if the user is not the owner
+      // if (result?.hasOwnProperty('is_owner')) {
+      //   redirect("/account");
+      // }
     }
   } catch (error) {
     console.error("Error in RootLayout:", error);
@@ -51,6 +52,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html lang="en">
       <body>
         <ClerkProvider dynamic>
+          <RedirectHandler {...{...result, host}} />
           <MainLayout userData={result}>{children}</MainLayout>
         </ClerkProvider>
       </body>
