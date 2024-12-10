@@ -7,9 +7,7 @@ import { useSelector } from 'react-redux';
 import PageLoader from '@/components/common/PageLoader';
 
 const AccountPage = () => {
-  const userStateLoading = useSelector((state: RootState) => state?.user?.loading);
-
-  return userStateLoading ? <PageLoader /> : <AccountComp />;
+    return <AccountComp />;
 }
 
 export default AccountPage

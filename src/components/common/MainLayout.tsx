@@ -1,6 +1,6 @@
 "use client";
 
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Provider, useDispatch } from "react-redux";
 import { store } from "@/store/index";
@@ -21,13 +21,15 @@ const AuthWrapper = (props: PropTypes) => {
   const {userData, children} = props
 
   const { isLoaded, isSignedIn, signOut } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname()
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(updateUserDetails(userData));
     if (window !== undefined && !!userData) {
+      dispatch(updateUserDetails(userData));
+
       const host = window.location.host;
       const { workspace_url, created_by } = userData;
       if (workspace_url !== host) {
@@ -41,20 +43,19 @@ const AuthWrapper = (props: PropTypes) => {
       if (created_by) {
         return router.push("/account");
       }
+      setIsLoading(false);
     }
 
   }, [userData]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes('/logout')
 
-  return !isLoaded ? (
+  return isLoading ? (
     <PageLoader />
   ) : (
     <>
       {isLoggedinRoute && <HeaderComp />}
-      <Box className={isLoggedinRoute ? "main-layout" : ""}>
-        {children}
-      </Box>
+      <Box className={isLoggedinRoute ? "main-layout" : ""}>{children}</Box>
       <FooterComp />
     </>
   );
