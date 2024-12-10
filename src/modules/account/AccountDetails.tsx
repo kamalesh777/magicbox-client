@@ -27,7 +27,9 @@ const AccountDetails = () => {
     "__v",
     "company_id",
     "user_id",
-    "is_owner"
+    "is_owner",
+    "created_by",
+    "workspace_url"
   ]);
 
   return (
