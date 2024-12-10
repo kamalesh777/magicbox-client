@@ -29,7 +29,8 @@ const AuthWrapper = (props: PropTypes) => {
   useEffect(() => {
     if (window !== undefined && !!userData) {
       dispatch(updateUserDetails(userData));
-
+      setIsLoading(false);
+      
       const host = window.location.host;
       const { workspace_url, created_by } = userData;
       if (workspace_url !== host) {
@@ -43,7 +44,6 @@ const AuthWrapper = (props: PropTypes) => {
       if (created_by) {
         return router.push("/account");
       }
-      setIsLoading(false);
     }
 
   }, [userData]);
