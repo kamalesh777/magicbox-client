@@ -19,8 +19,8 @@ export default function RedirectHandler(result: PropTypes) {
   const targetUrl = workspace_url?.startsWith("http") ? workspace_url : `https://${workspace_url}`;
 
   const redirectFunc = () => {
+    signOut();
     router.push(targetUrl)
-    // signOut();
   }
 
   return (
