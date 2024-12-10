@@ -11,30 +11,21 @@ import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
 import PageLoader from "./PageLoader";
 import { updateUserDetails, UserSliceTypes } from "@/store/slice/userSlice";
-import { useGetRequestHandler } from "@/hooks/requestHandler";
 
 interface PropTypes extends PropsWithChildren {
   userData: UserSliceTypes["details"];
 }
 
-const AuthWrapper = (props: PropsWithChildren) => {
+const AuthWrapper = (props: PropTypes) => {
   const { isLoaded, isSignedIn } = useAuth();
   const dispatch = useDispatch();
-  const {isLoading, data, fetchData} = useGetRequestHandler()
 
   useEffect(() => {
-    if (isSignedIn) {
-      fetchData('/api/view-user')
-    }
-    
-  }, [isSignedIn]);
+    if (isLoaded) dispatch(updateUserDetails(props.userData));
+  }, [isLoaded]);
 
-  useEffect(() => {
-    if (!isLoading) dispatch(updateUserDetails(data));
-  }, [isLoading]);
-
-  return !isLoaded && isLoading ? (
-      <PageLoader />
+  return !isLoaded ? (
+    <PageLoader />
   ) : (
     <>
       {isSignedIn && <HeaderComp />}
@@ -44,7 +35,9 @@ const AuthWrapper = (props: PropsWithChildren) => {
   );
 };
 
-export default function MainLayout(props: PropsWithChildren) {
+
+
+export default function MainLayout(props: PropTypes) {
   //  const themePalette = useSelector((state: RootState) => state.theme);
   return (
     <html lang="en">
@@ -54,9 +47,7 @@ export default function MainLayout(props: PropsWithChildren) {
             <ThemeWrapper>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <Container maxWidth={false} disableGutters>
-                <AuthWrapper>
-                  {props.children}
-                </AuthWrapper>
+                <AuthWrapper userData={props.userData}>{props.children}</AuthWrapper>
               </Container>
             </ThemeWrapper>
           </Provider>

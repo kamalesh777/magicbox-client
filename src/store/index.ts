@@ -4,7 +4,7 @@ import userDetailReducer from "./slice/userSlice";
 import { ENVIRONMENT } from "@/constants/AppConstant";
 
 
-export const store = configureStore({
+export const store = (configureStore)({
   reducer: {
     theme: themeReducer,
     user: userDetailReducer,
