@@ -21,7 +21,6 @@ const AuthWrapper = (props: PropTypes) => {
   const {userData, children} = props
 
   const { isLoaded, isSignedIn, signOut } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname()
   const dispatch = useDispatch();
   const router = useRouter();
@@ -48,13 +47,12 @@ const AuthWrapper = (props: PropTypes) => {
         return; // Exit early to prevent further execution
       }
   }
-  setTimeout(() => setIsLoading(false), 2500)
 }, [userData]);
 
 
   const isLoggedinRoute = isSignedIn && !pathname.includes('/logout')
 
-  return isLoading ? (
+  return !isLoaded ? (
     <PageLoader />
   ) : (
     <>
