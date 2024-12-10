@@ -12,6 +12,7 @@ export interface UserSliceTypes {
     address?: string;
     state?: string;
     pincode?: string;
+    workspace_url?: string
   };
 };
 
@@ -28,6 +29,7 @@ const initialState: UserSliceTypes | null = {
     address: "",
     state: "",
     pincode: "",
+    workspace_url: ""
   },
 };
 

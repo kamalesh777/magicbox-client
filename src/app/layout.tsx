@@ -9,7 +9,7 @@ import { PropsWithChildren } from "react";
 import routesObj from "@/constants/ApiConstant";
 import { fetchServerSideData } from "@/utils/fetchServerSideData ";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
 import { BRAND_NAME } from "@/constants/AppConstant";
 
 export const metadata: Metadata = {
@@ -35,11 +35,11 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       if (result?.workspace_url !== host) {
         console.log("====code work")
         const redirectUrl = `https://${result.workspace_url}`;
-        redirect(redirectUrl);
+        permanentRedirect(redirectUrl);
       }
 
       // Redirect if the user is not the owner
-      if (result?.is_owner === false) {
+      if (result?.hasOwnProperty('is_owner')) {
         redirect("/account");
       }
     }
