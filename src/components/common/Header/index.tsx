@@ -48,16 +48,8 @@ const HeaderComp = () => {
   };
 
   // signed out function to redirect to the sign in page
-  const handleSignOut = async () => {
-    const signInUrl =
-      process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || "/auth/sign-in";
-
-    try {
-      await signOut(); // Continue sign-out in the background
-      router.push(signInUrl);
-    } catch (error) {
-      console.error("Error during sign-out:", error);
-    }
+  const handleSignOut = () => {
+    router.push('/logout');
   };
 
   return (

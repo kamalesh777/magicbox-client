@@ -11,6 +11,7 @@ import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
 import PageLoader from "./PageLoader";
 import { updateUserDetails, UserSliceTypes } from "@/store/slice/userSlice";
+import { usePathname } from "next/navigation";
 
 interface PropTypes extends PropsWithChildren {
   userData: UserSliceTypes["details"];
@@ -18,18 +19,23 @@ interface PropTypes extends PropsWithChildren {
 
 const AuthWrapper = (props: PropTypes) => {
   const { isLoaded, isSignedIn } = useAuth();
+  const pathname = usePathname()
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLoaded) dispatch(updateUserDetails(props.userData));
   }, [isLoaded]);
 
+  const isLoggedinRoute = isSignedIn && !pathname.includes('/logout')
+
   return !isLoaded ? (
     <PageLoader />
   ) : (
     <>
-      {isSignedIn && <HeaderComp />}
-      <Box className={isSignedIn ? "main-layout" : ""}>{props.children}</Box>
+      {isLoggedinRoute && <HeaderComp />}
+      <Box className={isLoggedinRoute ? "main-layout" : ""}>
+        {props.children}
+      </Box>
       <FooterComp />
     </>
   );

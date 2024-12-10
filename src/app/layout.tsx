@@ -41,7 +41,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       <body>
         <ClerkProvider dynamic>
           <MainLayout userData={result}>
-            {(!!result && result?.workspace_url !== host) ? <RedirectHandler {...{...result}} /> : children}
+            {children}
           </MainLayout>
         </ClerkProvider>
       </body>
