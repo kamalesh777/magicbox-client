@@ -17,7 +17,6 @@ const AccountComp = () => {
   );
 
   const isUpdateForm = pathname === "/account/update";
-  console.log("===userStateLoading", userStateLoading);
   return userStateLoading ? (
     <PageLoader />
   ) : (
