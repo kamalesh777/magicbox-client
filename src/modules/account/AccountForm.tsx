@@ -60,7 +60,7 @@ const AccountForm = () => {
 
     
     await submit("/api/update-user", payload, "/account", 
-      () => dispatch(updateUserDetails({ ...userDetails, ...payload }))
+      () => dispatch(updateUserDetails({details: { ...userDetails, ...payload }}))
     );
 
   };
