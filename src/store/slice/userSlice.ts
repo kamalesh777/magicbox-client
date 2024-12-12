@@ -20,7 +20,7 @@ export interface UserSliceTypes {
 
 
 // Define the initial state using that type
-const initialState: UserSliceTypes = {
+const initialState: UserSliceTypes | null = {
   loading: true,
   details: {
     is_owner: false,

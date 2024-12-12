@@ -11,7 +11,8 @@ const Logout = () => {
 
   useEffect(() => {
     dispatch(updateUserDetails({
-      is_owner: false
+      details: null,
+      loading: false
     }));
     signOut()
     // router.replace(process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL as string);

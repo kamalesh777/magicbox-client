@@ -1,43 +1,33 @@
+
 "use client";
 
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { RootState, store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
-import { Box, Container, Grid2 } from "@mui/material";
-import HeaderComp from "./Header";
-import { useAuth } from "@clerk/nextjs";
-import FooterComp from "./Footer";
-import PageLoader from "./PageLoader";
+import { Container } from "@mui/material";
 import {
-  updateUserDetails,
   UserSliceTypes,
 } from "@/store/slice/userSlice";
-import { usePathname, useRouter } from "next/navigation";
+import AuthWrapper from "./AuthWrapper";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
-interface PropTypes extends PropsWithChildren {
+export interface MainLayoutPropTypes extends PropsWithChildren {
   userData: UserSliceTypes["details"];
 }
 
-const AuthWrapper = (props: PropTypes) => {
-  const { userData, children } = props;
+export default function MainLayout({ userData, children }: MainLayoutPropTypes) {
 
-  const { isLoaded, isSignedIn, signOut } = useAuth();
-  const pathname = usePathname();
-  const dispatch = useDispatch();
+  const { isLoaded, signOut } = useAuth();
   const router = useRouter();
 
-  const isUserStateLoading = useSelector(
-    (state: RootState) => state.user.loading
-  );
-
   useEffect(() => {
-    if (window !== undefined && userData?.workspace_url) {
-      dispatch(updateUserDetails({ details: userData, loading: false }));
 
+    if (userData) {
       const host = window.location.host;
-      const { workspace_url, created_by } = userData;
+      const { workspace_url, created_by } = userData || {};
 
       if (workspace_url !== host) {
         const redirectUrl = workspace_url?.startsWith("http")
@@ -53,24 +43,9 @@ const AuthWrapper = (props: PropTypes) => {
         router.push("/account");
         return; // Exit early to prevent further execution
       }
-    }
-  }, [userData]);
-
-  const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
-
-  return !isUserStateLoading ? (
-    <PageLoader />
-  ) : (
-    <>
-      {isLoggedinRoute && <HeaderComp />}
-      <Box className={isLoggedinRoute ? "main-layout" : ""}>{children}</Box>
-      <FooterComp />
-    </>
-  );
-};
-
-export default function MainLayout(props: PropTypes) {
-  //  const themePalette = useSelector((state: RootState) => state.theme);
+    } 
+  }, [JSON.stringify(userData)]);
+  
   return (
     <html lang="en">
       <body>
@@ -79,9 +54,7 @@ export default function MainLayout(props: PropTypes) {
             <ThemeWrapper>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <Container maxWidth={false} disableGutters>
-                <AuthWrapper userData={props.userData}>
-                  {props.children}
-                </AuthWrapper>
+                <AuthWrapper userData={userData}>{children}</AuthWrapper>
               </Container>
             </ThemeWrapper>
           </Provider>

@@ -33,29 +33,35 @@ const AccountDetails = () => {
   ]);
 
   return (
-    userDetails &&
-    <Box>
-      <Grid2 container>
-        <Grid2 size={8}>
-          <Box component="h3">User Details</Box>
+    userDetails && (
+      <Box>
+        <Grid2 container>
+          <Grid2 size={8}>
+            <Box component="h3">User Details</Box>
+          </Grid2>
+          <Grid2 size={4} className="text-right">
+            <Tooltip title="Update details" placement="top">
+              <IconButton onClick={() => router.push("/account/update")}>
+                <Edit sx={{ fontSize: "16px" }} />
+              </IconButton>
+            </Tooltip>
+          </Grid2>
         </Grid2>
-        <Grid2 size={4} className="text-right">
-          <Tooltip title="Update details" placement="top">
-            <IconButton onClick={() => router.push("/account/update")}>
-              <Edit sx={{ fontSize: "16px" }} />
-            </IconButton>
-          </Tooltip>
-        </Grid2>
-      </Grid2>
-      <Divider className="my-2" />
-      {filterItems?.length > 0 ? (
-        filterItems?.map((obj: { key: string; value: unknown }) => (
-        <Grid2 container className="mb-2">
-          <Grid2 size={4}>{startCase(obj?.key)}:</Grid2>
-          <Grid2 size={8}>{obj?.value as string || EMPTY_PLACEHOLDER}</Grid2>
-        </Grid2>
-      ))) : <p>No details added yet, update your details using the pencil icon</p>}
-    </Box>
+        <Divider className="my-2" />
+        {filterItems && filterItems?.length > 0 ? (
+          filterItems?.map((obj: { key: string; value: unknown }) => (
+            <Grid2 container className="mb-2">
+              <Grid2 size={4}>{startCase(obj?.key)}:</Grid2>
+              <Grid2 size={8}>
+                {(obj?.value as string) || EMPTY_PLACEHOLDER}
+              </Grid2>
+            </Grid2>
+          ))
+        ) : (
+          <p>No details added yet, update your details using the pencil icon</p>
+        )}
+      </Box>
+    )
   );
 }
 
