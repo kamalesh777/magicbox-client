@@ -12,14 +12,8 @@ import { useSelector } from "react-redux";
 const AccountComp = () => {
   const pathname = usePathname();
 
-  const userStateLoading = useSelector(
-    (state: RootState) => state?.user?.loading
-  );
-
   const isUpdateForm = pathname === "/account/update";
-  return userStateLoading ? (
-    <PageLoader />
-  ) : (
+  return (
     <div className="company-form">
       <Grid2 container justifyContent="center">
         <Grid2 size={{ md: 6, sm: 12 }}>
