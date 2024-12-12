@@ -136,9 +136,7 @@ const DashboardComp = () => {
     </form>
   );
 
-  return !isLoaded ? (
-    <PageLoader />
-  ) : (
+  return (
     <div className="company-form">
       <Grid2 container justifyContent="center">
         <Grid2 size={{ md: 6, sm: 12 }}>

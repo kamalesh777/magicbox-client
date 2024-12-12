@@ -13,7 +13,7 @@ import PageLoader from './PageLoader';
 import { MainLayoutPropTypes } from './MainLayout';
 
 const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
-  const { isSignedIn, signOut } = useAuth();
+  const { isSignedIn } = useAuth();
   const pathname = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
