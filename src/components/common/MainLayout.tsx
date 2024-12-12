@@ -2,15 +2,18 @@
 
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { Provider, useDispatch } from "react-redux";
-import { store } from "@/store/index";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { RootState, store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
 import { Box, Container, Grid2 } from "@mui/material";
 import HeaderComp from "./Header";
 import { useAuth } from "@clerk/nextjs";
 import FooterComp from "./Footer";
 import PageLoader from "./PageLoader";
-import { updateUserDetails, UserSliceTypes } from "@/store/slice/userSlice";
+import {
+  updateUserDetails,
+  UserSliceTypes,
+} from "@/store/slice/userSlice";
 import { usePathname, useRouter } from "next/navigation";
 
 interface PropTypes extends PropsWithChildren {
@@ -18,16 +21,20 @@ interface PropTypes extends PropsWithChildren {
 }
 
 const AuthWrapper = (props: PropTypes) => {
-  const {userData, children} = props
+  const { userData, children } = props;
 
   const { isLoaded, isSignedIn, signOut } = useAuth();
-  const pathname = usePathname()
+  const pathname = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const isUserStateLoading = useSelector(
+    (state: RootState) => state.user.loading
+  );
+
   useEffect(() => {
-    if (window !== undefined && !!userData) {
-      dispatch(updateUserDetails(userData));
+    if (window !== undefined && userData?.workspace_url) {
+      dispatch(updateUserDetails({ details: userData, loading: false }));
 
       const host = window.location.host;
       const { workspace_url, created_by } = userData;
@@ -46,13 +53,12 @@ const AuthWrapper = (props: PropTypes) => {
         router.push("/account");
         return; // Exit early to prevent further execution
       }
-  }
-}, [userData]);
+    }
+  }, [userData]);
 
+  const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
-  const isLoggedinRoute = isSignedIn && !pathname.includes('/logout')
-
-  return !isLoaded ? (
+  return !isUserStateLoading ? (
     <PageLoader />
   ) : (
     <>
@@ -62,8 +68,6 @@ const AuthWrapper = (props: PropTypes) => {
     </>
   );
 };
-
-
 
 export default function MainLayout(props: PropTypes) {
   //  const themePalette = useSelector((state: RootState) => state.theme);
@@ -75,7 +79,9 @@ export default function MainLayout(props: PropTypes) {
             <ThemeWrapper>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <Container maxWidth={false} disableGutters>
-                <AuthWrapper userData={props.userData}>{props.children}</AuthWrapper>
+                <AuthWrapper userData={props.userData}>
+                  {props.children}
+                </AuthWrapper>
               </Container>
             </ThemeWrapper>
           </Provider>

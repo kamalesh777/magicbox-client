@@ -14,13 +14,13 @@ export interface UserSliceTypes {
     pincode?: string;
     workspace_url?: string;
     created_by?: string
-  };
+  } | null;
 };
 
 
 
 // Define the initial state using that type
-const initialState: UserSliceTypes | null = {
+const initialState: UserSliceTypes = {
   loading: true,
   details: {
     is_owner: false,
@@ -39,9 +39,9 @@ export const userDetailSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    updateUserDetails: (state, action: PayloadAction<UserSliceTypes['details']>) => {
-      state.details = { ...action.payload };
-      state.loading = false
+    updateUserDetails: (state, action: PayloadAction<UserSliceTypes>) => {
+      state.details = action.payload.details;
+      state.loading = action?.payload?.loading || false;
     },
   },
 });
