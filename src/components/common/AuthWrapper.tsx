@@ -22,7 +22,6 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
     (state: RootState) => state.user.loading
   );
 
-  console.log("===userData auth page", userData);
   useEffect(() => {
     if (!!userData) {
       dispatch(updateUserDetails({ details: userData, loading: false }));
@@ -31,9 +30,11 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
-  return (
+  return isLoggedinRoute && isUserStateLoading ? (
+    <PageLoader />
+  ) : (
     <>
-      {isLoggedinRoute && <HeaderComp />}
+      <HeaderComp />
       <Box className={isLoggedinRoute ? "main-layout" : ""}>{children}</Box>
       <FooterComp />
     </>
