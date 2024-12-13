@@ -30,14 +30,18 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
-  return isLoggedinRoute && isUserStateLoading ? (
-    <PageLoader />
+  return isLoggedinRoute ? (
+    isUserStateLoading ? (
+      <PageLoader />
+    ) : (
+      <>
+        <HeaderComp />
+        <Box className="main-layout">{children}</Box>
+        <FooterComp />
+      </>
+    )
   ) : (
-    <>
-      <HeaderComp />
-      <Box className={isLoggedinRoute ? "main-layout" : ""}>{children}</Box>
-      <FooterComp />
-    </>
+    <Box>{children}</Box>
   );
 };
 
