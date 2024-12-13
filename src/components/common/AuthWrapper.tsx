@@ -13,7 +13,7 @@ import PageLoader from './PageLoader';
 import { MainLayoutPropTypes } from './MainLayout';
 
 const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, signOut } = useAuth();
   const pathname = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -21,6 +21,30 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
   const isUserStateLoading = useSelector(
     (state: RootState) => state.user.loading
   );
+
+  useEffect(() => {
+    if (!!userData) {
+      dispatch(updateUserDetails({ details: userData, loading: false }));
+
+      const host = window.location.host;
+      const { workspace_url, created_by } = userData || {};
+
+      if (workspace_url !== host) {
+        const redirectUrl = workspace_url?.startsWith("http")
+          ? workspace_url
+          : `https://${workspace_url}`;
+
+        signOut(); // before redirect, sign out this user
+        router.replace(redirectUrl as string);
+        return ; // Exit early to prevent further execution
+      }
+
+      if (created_by) {
+        router.push("/account");
+        return; // Exit early to prevent further execution
+      }
+    } 
+  }, [JSON.stringify(userData)]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
