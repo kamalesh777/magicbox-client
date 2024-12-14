@@ -1,6 +1,5 @@
 "use client";
 
-import PageLoader from "@/components/common/PageLoader";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import InputFieldWrapper from "@/components/wrapper/InputFieldWrapper";
 import { PRIMARY_DOMAIN } from "@/constants/AppConstant";
@@ -9,7 +8,6 @@ import { useUser } from "@clerk/nextjs";
 import {
   Card,
   CardContent,
-  Container,
   Grid2,
   InputAdornment,
 } from "@mui/material";
@@ -41,11 +39,11 @@ const WorkspaceComp = () => {
   });
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isLoaded && user) {
       setValue("name", user?.fullName as string);
       setValue("email", user?.primaryEmailAddress?.emailAddress as string);
     }
-  }, [isLoaded]);
+  }, [isLoaded, user]);
 
   const formSubmitHandler = async (formValues: any) => {
     const payload = {

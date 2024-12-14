@@ -10,7 +10,6 @@ const RootPage = () => {
     (state: RootState) => state.user.loading
   );
 
-  console.log("====isUserStateLoading", isUserStateLoading);
   return (
     isUserStateLoading ? <PageLoader /> : null
   )

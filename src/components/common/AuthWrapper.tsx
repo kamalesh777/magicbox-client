@@ -23,26 +23,41 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (userData) {
-      const host = window.location.host;
-      const { workspace_url, created_by } = userData;
+    // Helper function to handle redirection
+    const handleRedirection = async () => {
+      if (!userData) {
+        console.log("Redirecting: No user data, going to /workspace");
+        await router.push("/workspace");
+        return;
+      }
 
-      if (workspace_url !== host) {
-        const redirectUrl = workspace_url?.startsWith("http")
+      const { workspace_url, created_by } = userData;
+      const currentHost = window.location.host;
+
+      if (workspace_url && workspace_url !== currentHost) {
+        const redirectUrl = workspace_url.startsWith("http")
           ? workspace_url
           : `https://${workspace_url}`;
 
-        signOut(); // before redirect, sign out this user
-        router.replace(redirectUrl as string);
+        console.log("Redirecting: Mismatched workspace, going to", redirectUrl);
+        await router.replace(redirectUrl);
+        return;
       }
+
       if (created_by) {
-        router.push("/account");
+        console.log("Redirecting: User is a creator, going to /account");
+        await router.push("/account");
+        return;
       }
-    } else {
-      router.push("/workspace");
-    }
+
+      console.log("No redirection needed");
+    };
+
+    handleRedirection();
+
+    // Always update user details in Redux store
     dispatch(updateUserDetails({ details: userData, loading: false }));
-  }, [userData, router]);
+  }, [userData, router, dispatch]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
