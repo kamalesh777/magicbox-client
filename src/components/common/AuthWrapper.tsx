@@ -13,10 +13,9 @@ import PageLoader from './PageLoader';
 import { MainLayoutPropTypes } from './MainLayout';
 
 const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
-  const { isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
   const pathname = usePathname();
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const isUserStateLoading = useSelector(
     (state: RootState) => state.user.loading
@@ -29,6 +28,10 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
   }, [JSON.stringify(userData)]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
+
+  if (!isLoaded) {
+    return null;
+  }
 
   return isLoggedinRoute ? (
     isUserStateLoading ? (
