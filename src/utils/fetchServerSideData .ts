@@ -56,8 +56,7 @@ export const fetchServerSideData = async <T = any>(
 
     // Return successful response
     return {
-      success: true,
-      result: response.data,
+      ...response.data,
     };
   } catch (error: any) {
     // Return structured error response

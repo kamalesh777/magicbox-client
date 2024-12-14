@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: PropsWithChildren) {
+
   const { userId } = await auth();
 
   let result; // Declare result variable to store user data
@@ -32,7 +33,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         result = res.result;
       }
     } catch (error) {
-      console.error("Error in RootLayout:", error);
+      console.error("====Error in RootLayout:", error);
       // Handle errors gracefully or redirect to an error page if needed
     }
   }
