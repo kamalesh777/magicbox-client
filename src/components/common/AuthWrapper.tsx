@@ -33,15 +33,15 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
       const { workspace_url, created_by } = userData;
       const currentHost = window.location.host;
 
-      // if (workspace_url && workspace_url !== currentHost) {
-      //   const redirectUrl = workspace_url.startsWith("http")
-      //     ? workspace_url
-      //     : `https://${workspace_url}`;
+      if (workspace_url && workspace_url !== currentHost) {
+        const redirectUrl = workspace_url.startsWith("http")
+          ? workspace_url
+          : `https://${workspace_url}`;
 
-      //   console.log("Redirecting: Mismatched workspace, going to", redirectUrl);
-      //   await router.replace(redirectUrl);
-      //   return;
-      // }
+        console.log("Redirecting: Mismatched workspace, going to", redirectUrl);
+        await router.replace(redirectUrl);
+        return;
+      }
 
       if (created_by) {
         await router.push("/account");
