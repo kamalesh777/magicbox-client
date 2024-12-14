@@ -22,10 +22,8 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
   );
 
   useEffect(() => {
-    if (!!userData) {
-      dispatch(updateUserDetails({ details: userData, loading: false }));
-    }
-  }, [JSON.stringify(userData)]);
+    dispatch(updateUserDetails({ details: userData, loading: false }));
+  }, [userData]);
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
