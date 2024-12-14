@@ -18,10 +18,6 @@ interface MyErrorType {
 API.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/require-await
   async (req) => {
-    // const { pathname } = new URL(req.url);
-    // const index = pathname.replace("/api/", "");
-    
-    // const ENDPOINT = apiRoutes[index as keyof typeof apiRoutes] as string;
     
     req.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
     req.headers.Pragma = 'no-cache';
@@ -40,12 +36,6 @@ API.interceptors.response.use(
     return res
   },
   async (err: MyErrorType) => {
-    if (typeof window !== 'undefined') {
-      if (((err?.response?.status === 401) || (err?.response?.status === 403 ))) {
-        callOnce = 1
-        // Toast('error', 'Your session has expired! Please Re-login.')
-      }
-    }
     return await Promise.reject(err)
   }
 )
