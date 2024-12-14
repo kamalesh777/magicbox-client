@@ -27,14 +27,14 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
 
   // update user details
   useEffect(() => {
-    dispatch(updateUserDetails({details: data, loading: isLoading}));
+    // dispatch(updateUserDetails({details: data, loading: isLoading}));
   }, [isLoading]);
 
   const isUserStateLoading = useSelector(
     (state: RootState) => state.user.loading
   );
 
-  const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
+  const isLoggedinRoute = false
 
   return isLoggedinRoute ? (
     isUserStateLoading ? (
