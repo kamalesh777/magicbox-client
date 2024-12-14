@@ -26,6 +26,7 @@ export default function MainLayout({ userData, children }: MainLayoutPropTypes) 
   useEffect(() => {
 
     if (userData) {
+      console.log("===userData", userData);
       const host = window.location.host;
       const { workspace_url, created_by } = userData || {};
 
@@ -34,7 +35,7 @@ export default function MainLayout({ userData, children }: MainLayoutPropTypes) 
           ? workspace_url
           : `https://${workspace_url}`;
 
-        // signOut(); // before redirect, sign out this user
+        signOut(); // before redirect, sign out this user
         router.replace(redirectUrl as string);
       } else if (created_by) {
         router.push("/account");
