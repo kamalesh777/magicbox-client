@@ -2,6 +2,14 @@ import API from "@/api/preference/API";
 import { auth } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 
+const fetchToken = async (token?: string): Promise<string | null> => {
+  if (token) {
+    return token
+  }
+  const { getToken } = await auth();
+  return getToken();
+}
+
 /**
  * Fetch data from the server-side API using a predefined route key.
  *
@@ -9,16 +17,14 @@ import { headers } from "next/headers";
  * @returns Response data from the API
  * @throws Error if the request fails or the route key is invalid
  */
-export const fetchServerSideData = async (endpoint: string) => {
+export const fetchServerSideData = async (endpoint: string, authToken?: string) => {
   try {
 
     const headersList = await headers();
     const host = headersList.get("host");
 
     // Retrieve the authorization token
-    const { getToken } = await auth();
-    const token = await getToken();
-
+    const token = await fetchToken(authToken)
     if (!token) {
       throw new Error("Authorization token is missing.");
     }

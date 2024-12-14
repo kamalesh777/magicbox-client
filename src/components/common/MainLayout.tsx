@@ -13,11 +13,11 @@ import {
 import AuthWrapper from "./AuthWrapper";
 
 export interface MainLayoutPropTypes extends PropsWithChildren {
-  userData: UserSliceTypes["details"];
+  userData?: UserSliceTypes["details"];
 }
 
-export default function MainLayout({ userData, children }: MainLayoutPropTypes) {
-  
+export default function MainLayout({ children }: MainLayoutPropTypes) {
+  const userData  = null
   return (
     <html lang="en">
       <body>
