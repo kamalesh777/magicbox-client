@@ -9,6 +9,7 @@ import { PropsWithChildren } from "react";
 import routesObj from "@/constants/ApiConstant";
 import { fetchServerSideData } from "@/utils/fetchServerSideData ";
 import { BRAND_NAME } from "@/constants/AppConstant";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: BRAND_NAME || "Magicbox",
@@ -16,21 +17,26 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: PropsWithChildren) {
+  const { userId } = await auth();
 
   let result; // Declare result variable to store user data
   
-  try {
-    // Fetch server-side data
-    const res = await fetchServerSideData(routesObj["view-user"]);
-    // Check if the response was successful
-    if (res.success) {
-      result = await res.result;
+  if (userId) {
+    try {
+      // Fetch server-side data
+      const res = await fetchServerSideData(routesObj["view-user"]);
+      // Check if the response was successful
+      if (res.success) {
+        result = await res.result;
+      }
+    } catch (error) {
+      console.error("Error in RootLayout:", error);
+      // Handle errors gracefully or redirect to an error page if needed
     }
-  } catch (error) {
-    console.error("Error in RootLayout:", error);
-    // Handle errors gracefully or redirect to an error page if needed
   }
 
+  console.log("===result", result);
+    
   return (
     <html lang="en">
       <body>

@@ -29,10 +29,6 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
 
   const isLoggedinRoute = isSignedIn && !pathname.includes("/logout");
 
-  if (!isLoaded) {
-    return null;
-  }
-
   return isLoggedinRoute ? (
     isUserStateLoading ? (
       <PageLoader />
