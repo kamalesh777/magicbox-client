@@ -4,7 +4,7 @@ import routesObj from "./constants/ApiConstant";
 import { NextResponse } from "next/server";
 import { fetchServerSideData } from "./utils/fetchServerSideData ";
 
-const isProtectedRoute = createRouteMatcher(["/auth(.*)", "/logout"]);
+const isProtectedRoute = createRouteMatcher(["/auth(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isProtectedRoute(req)) {
