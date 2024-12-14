@@ -11,40 +11,12 @@ import {
   UserSliceTypes,
 } from "@/store/slice/userSlice";
 import AuthWrapper from "./AuthWrapper";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
 
 export interface MainLayoutPropTypes extends PropsWithChildren {
   userData: UserSliceTypes["details"];
 }
 
 export default function MainLayout({ userData, children }: MainLayoutPropTypes) {
-
-  const {signOut} = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-
-    if (userData) {
-      console.log("===userData", userData);
-      const host = window.location.host;
-      const { workspace_url, created_by } = userData || {};
-
-      if (workspace_url !== host) {
-        const redirectUrl = workspace_url?.startsWith("http")
-          ? workspace_url
-          : `https://${workspace_url}`;
-
-        signOut(); // before redirect, sign out this user
-        router.replace(redirectUrl as string);
-      } else if (created_by) {
-        router.push("/account");
-      } else {
-        router.push("/workspace");
-      }
-    } 
-  }, [userData, router]);
-  
   return (
     <html lang="en">
       <body>

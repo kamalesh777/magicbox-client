@@ -1,3 +1,5 @@
+'use client'
+
 import PageLoader from '@/components/common/PageLoader'
 import React from 'react'
 import { useSelector } from 'react-redux';
@@ -7,6 +9,8 @@ const RootPage = () => {
   const isUserStateLoading = useSelector(
     (state: RootState) => state.user.loading
   );
+
+  console.log("====isUserStateLoading", isUserStateLoading);
   return (
     isUserStateLoading ? <PageLoader /> : null
   )

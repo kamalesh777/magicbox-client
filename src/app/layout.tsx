@@ -28,12 +28,16 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       // Check if the response was successful
       if (res.success) {
         result = res.result;
+      } else {
+        result = res.result;
       }
     } catch (error) {
       console.error("Error in RootLayout:", error);
       // Handle errors gracefully or redirect to an error page if needed
     }
   }
+
+  console.log("============root layout", result)
     
   return (
     <html lang="en">

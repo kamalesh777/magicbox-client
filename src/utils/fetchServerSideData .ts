@@ -9,10 +9,19 @@ import { headers } from "next/headers";
  * @returns Response data from the API
  * @throws Error if the request fails or the route key is invalid
  */
-export const fetchServerSideData = async (endpoint: string) => {
-  try {
 
-    const headersList = await headers();
+interface ServerSideDataResponse<T = any> {
+  success: boolean;
+  result?: T;
+  error?: string;
+  status?: number
+}
+
+export const fetchServerSideData = async <T = any>(
+  endpoint: string
+): Promise<ServerSideDataResponse<T>> => {
+  try {
+    const headersList = headers();
     const host = headersList.get("host");
 
     // Retrieve the authorization token
@@ -20,12 +29,18 @@ export const fetchServerSideData = async (endpoint: string) => {
     const token = await getToken();
 
     if (!token) {
-      throw new Error("Authorization token is missing.");
+      return {
+        success: false,
+        error: "Authorization token is missing.",
+      };
     }
 
-    // Resolve the endpoint using the route key
+    // Validate endpoint
     if (!endpoint) {
-      throw new Error(`Route key "${endpoint}" not found in routesObj.`);
+      return {
+        success: false,
+        error: `Invalid endpoint: "${endpoint}".`,
+      };
     }
 
     // Make the API request
@@ -35,15 +50,20 @@ export const fetchServerSideData = async (endpoint: string) => {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        "X-client-host": host, // Update dynamically if needed
+        "X-client-host": host || "",
       },
     });
 
-    // Return the response data
-    return response.data;
+    // Return successful response
+    return {
+      success: true,
+      result: response.data,
+    };
   } catch (error: any) {
-    throw new Error(
-      error.response?.data?.message || "Failed to fetch server-side data."
-    );
+    // Return structured error response
+    return {
+      ...error.response.data,
+    };
   }
 };
+
