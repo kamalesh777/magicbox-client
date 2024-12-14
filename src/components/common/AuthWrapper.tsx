@@ -38,7 +38,6 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
           ? workspace_url
           : `https://${workspace_url}`;
 
-        console.log("Redirecting: Mismatched workspace, going to", redirectUrl);
         await router.replace(redirectUrl);
         return;
       }
