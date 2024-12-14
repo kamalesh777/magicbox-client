@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import AccountComp from '@/modules/account';
 

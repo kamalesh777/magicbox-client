@@ -3,8 +3,8 @@
 
 import React, { PropsWithChildren, useEffect } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { Provider, useSelector } from "react-redux";
-import { RootState, store } from "@/store/index";
+import { Provider } from "react-redux";
+import { store } from "@/store/index";
 import ThemeWrapper from "./ThemeWrapper";
 import { Container } from "@mui/material";
 import {
