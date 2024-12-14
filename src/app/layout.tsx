@@ -34,8 +34,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       // Handle errors gracefully or redirect to an error page if needed
     }
   }
-
-  console.log("===result", result);
     
   return (
     <html lang="en">

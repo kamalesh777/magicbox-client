@@ -20,7 +20,7 @@ export interface MainLayoutPropTypes extends PropsWithChildren {
 
 export default function MainLayout({ userData, children }: MainLayoutPropTypes) {
 
-  const { isLoaded } = useAuth();
+  const {signOut} = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -29,21 +29,21 @@ export default function MainLayout({ userData, children }: MainLayoutPropTypes) 
       const host = window.location.host;
       const { workspace_url, created_by } = userData || {};
 
-      // if (workspace_url !== host) {
-      //   const redirectUrl = workspace_url?.startsWith("http")
-      //     ? workspace_url
-      //     : `https://${workspace_url}`;
+      if (workspace_url !== host) {
+        const redirectUrl = workspace_url?.startsWith("http")
+          ? workspace_url
+          : `https://${workspace_url}`;
 
-      //   signOut(); // before redirect, sign out this user
-      //   router.replace(redirectUrl as string);
-      //   return; // Exit early to prevent further execution
-      // }
-
-      if (created_by) {
+        signOut(); // before redirect, sign out this user
+        router.replace(redirectUrl as string);
+        return; // Exit early to prevent further execution
+      } else if (created_by) {
         router.push("/account");
+      } else {
+        router.push("/workspace");
       }
     } 
-  }, [JSON.stringify(userData), router]);
+  }, [userData, router]);
   
   return (
     <html lang="en">

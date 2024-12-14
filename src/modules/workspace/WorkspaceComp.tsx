@@ -21,7 +21,7 @@ export type submitResponseType = {
   workspace_url: string
 } | null
 
-const DashboardComp = () => {
+const WorkspaceComp = () => {
   const { user, isLoaded } = useUser();
   const { buttonLoading, submit, isSuccess } = usePostRequestHandler();
   const [workspaceData, setWorkspaceData] = useState<submitResponseType>(null);
@@ -155,4 +155,4 @@ const DashboardComp = () => {
   );
 };
 
-export default DashboardComp;
+export default WorkspaceComp;

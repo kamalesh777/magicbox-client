@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper";
 import Link from "next/link";
-import { submitResponseType } from "./DashboardComp";
+import { submitResponseType } from "./WorkspaceComp";
 
 interface Proptypes {
   data: submitResponseType;

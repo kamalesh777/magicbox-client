@@ -1,9 +1,10 @@
-import Dashboard from "./dashboard/page";
+import PageLoader from '@/components/common/PageLoader'
+import React from 'react'
 
-
-export default async function Home() {
-  
+const RootPage = () => {
   return (
-     <Dashboard />
-  );
+    <PageLoader />
+  )
 }
+
+export default RootPage
