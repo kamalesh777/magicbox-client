@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       const res = await fetchServerSideData(routesObj["view-user"]);
       // Check if the response was successful
       if (res.success) {
-        result = await res.result;
+        result = res.result;
       }
     } catch (error) {
       console.error("Error in RootLayout:", error);

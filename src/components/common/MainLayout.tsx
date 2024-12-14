@@ -34,9 +34,8 @@ export default function MainLayout({ userData, children }: MainLayoutPropTypes) 
           ? workspace_url
           : `https://${workspace_url}`;
 
-        signOut(); // before redirect, sign out this user
+        // signOut(); // before redirect, sign out this user
         router.replace(redirectUrl as string);
-        return; // Exit early to prevent further execution
       } else if (created_by) {
         router.push("/account");
       } else {
