@@ -21,12 +21,12 @@
     "axios": "^1.7.7",
     "lodash": "^4.17.21",
     "next": "14.2.13",
+    "next-scratchcard": "^0.0.4",
     "notistack": "^3.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.2",
     "react-redux": "^9.1.2",
-    "rn-scratch-card": "^1.2.3",
     "sass": "^1.81.0"
   },
   "devDependencies": {
