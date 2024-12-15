@@ -1,13 +1,21 @@
 "use client";
 
+import { UserSliceTypes } from "@/store/slice/userSlice";
 import { SentimentDissatisfied } from "@mui/icons-material";
-import { Grid2, Box, Container } from "@mui/material";
+import { Grid2, Box, Container, Paper } from "@mui/material";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useState } from "react";
 
 const ScratchCard = dynamic(() => import("react-scratchcard-v4"));
 
 const PlayCard = ({ data }: any) => {
+  const [showUser, setShowUser] = useState(false);
+
+  const completeHandler = (userObj: UserSliceTypes['details']) => {
+    console.log("===userObj", userObj);
+    setShowUser(true);
+  };
+
   return data?.length > 0 ? (
     <div className="company-form">
       <Container disableGutters>
@@ -19,20 +27,25 @@ const PlayCard = ({ data }: any) => {
                   width={280}
                   height={226}
                   image={"/scratch_foreground.png"}
-                  finishPercent={85}
-                  onComplete={() => console.log("===complete", user)}
+                  finishPercent={60}
+                  onComplete={() => completeHandler(user)}
                 >
-                  <div
-                    style={{
+                  <Paper
+                    sx={{
                       display: "flex",
                       width: "100%",
                       height: "100%",
                       alignItems: "center",
                       justifyContent: "center",
+                      background: "secondary.light",
                     }}
                   >
-                    <h1>{user.name}</h1>
-                  </div>
+                    {showUser && (
+                      <>
+                        <h1>{user.name}</h1>
+                      </>
+                    )}
+                  </Paper>
                 </ScratchCard>
               }
             </Grid2>
