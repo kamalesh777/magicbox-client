@@ -1,12 +1,13 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { auth } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher(["/auth(.*)"]);
 
 export default clerkMiddleware(async (auth, req, res) => {
   if (!isProtectedRoute(req)) {
     await auth.protect();
-
+  } else {
     // Get the token
     const { getToken } = await auth();
     const token = await getToken();
@@ -15,6 +16,7 @@ export default clerkMiddleware(async (auth, req, res) => {
     if (token) {
       req.headers.set("Authorization", `Bearer ${token}`);
     }
+    return NextResponse.next()
   }
 });
 

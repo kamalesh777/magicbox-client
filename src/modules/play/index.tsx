@@ -8,34 +8,34 @@ import React from "react";
 const ScratchCard = dynamic(() => import("react-scratchcard-v4"));
 
 const PlayCard = ({ data }: any) => {
-    console.log("====data", data);
   return data?.length > 0 ? (
-    data?.map((user: any) => (
-      <Grid2 size={4}>
-        {
-          <ScratchCard
-            width={320}
-            height={226}
-            image={"/scratch_foreground.png"}
-            finishPercent={85}
-            onComplete={() => console.log("===complete", user)}
-          >
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                height: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+    <Grid2 container>
+      {data?.map((user: any) => (
+        <Grid2 size={3}>
+          {
+            <ScratchCard
+              width={280}
+              height={226}
+              image={"/scratch_foreground.png"}
+              finishPercent={85}
+              onComplete={() => console.log("===complete", user)}
             >
-              <h1>Scratch card</h1>
-            </div>
-          </ScratchCard>
-        }
-        {user.name}
-      </Grid2>
-    ))
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h1>{user.name}</h1>
+              </div>
+            </ScratchCard>
+          }
+        </Grid2>
+      ))}
+    </Grid2>
   ) : (
     <Box className="text-center my-5">
       <SentimentDissatisfied fontSize="large" />
