@@ -3,7 +3,7 @@ import { fetchServerSideData } from '@/utils/fetchServerSideData '
 import { SentimentDissatisfied } from '@mui/icons-material';
 import { Box, Grid2 } from "@mui/material";
 import React from 'react'
-import { ScratchCard } from "next-scratchcard";
+import ScratchCard from "react-scratchcard-v4";
 
 const PlayPage = async () => {
   const res = await fetchServerSideData(routesObj["except-me"]);
@@ -18,11 +18,23 @@ const PlayPage = async () => {
       <Grid2 size={4}>
         {
           <ScratchCard
-            finishPercent={30}
-            brushSize={20}
-            onComplete={handleComplete}
+            width={320}
+            height={226}
+            image={"/scratch_foreground.png"}
+            finishPercent={80}
+            onComplete={() => console.log("===complete", user)}
           >
-            <img src="/scratch_foreground.png" />
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h1>Scratch card</h1>
+            </div>
           </ScratchCard>
         }
       </Grid2>
