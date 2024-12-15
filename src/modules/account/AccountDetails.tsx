@@ -2,7 +2,7 @@ import { Box, Divider, Grid, Grid2, IconButton, Tooltip } from '@mui/material'
 import React from 'react'
 import { startCase } from "lodash";
 import { EMPTY_PLACEHOLDER } from '@/constants/AppConstant';
-import { Edit } from '@mui/icons-material';
+import { Edit, SentimentDissatisfied } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/index';
@@ -33,7 +33,7 @@ const AccountDetails = () => {
   ]);
 
   return (
-    userDetails && (
+    userDetails ? (
       <Box>
         <Grid2 container>
           <Grid2 size={8}>
@@ -60,6 +60,11 @@ const AccountDetails = () => {
         ) : (
           <p>No details added yet, update your details using the pencil icon</p>
         )}
+      </Box>
+    ) : (
+      <Box className="text-center my-5">
+        <SentimentDissatisfied fontSize='large'/>
+        <p>User details not found</p>
       </Box>
     )
   );
