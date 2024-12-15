@@ -11,7 +11,7 @@ const RootPage = () => {
   );
 
   return (
-    <PageLoader />
+      <PageLoader />
   )
 }
 

@@ -1,5 +1,6 @@
 'use client'
 
+import PageLoader from '@/components/common/PageLoader'
 import { updateUserDetails } from '@/store/slice/userSlice'
 import { useAuth } from '@clerk/nextjs'
 import React, { useEffect } from 'react'
@@ -18,7 +19,7 @@ const Logout = () => {
     // router.replace(process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL as string);
   }, [])
   return (
-    <div>Please wait.....</div>
+    <PageLoader />
   )
 }
 
