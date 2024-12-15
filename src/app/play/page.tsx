@@ -1,26 +1,29 @@
 import routesObj from '@/constants/ApiConstant'
 import { fetchServerSideData } from '@/utils/fetchServerSideData '
+import { auth } from '@clerk/nextjs/server';
 import { SentimentDissatisfied } from '@mui/icons-material';
 import { Box, Grid2 } from "@mui/material";
 import React from 'react'
 import ScratchCard from "react-scratchcard-v4";
 
 const PlayPage = async () => {
-  let data = []
-  try {
-    const res = await fetchServerSideData(routesObj["except-me"]);
+  const { userId } = await auth();
 
-    if (res?.success) {
-      data = await res?.result;
-    } else {
-      data = []
+  let data;
+
+  if (userId) {
+    try {
+      const res = await fetchServerSideData(routesObj["except-me"]);
+
+      if (res?.success) {
+        data = res?.result;
+      } else {
+        data = []
+      }
+    } catch (err) {
+      console.log("=====error in play page", err)
     }
-  } catch (err) {
-    console.log("=====error in play page", err)
   }
-  
-
-  console.log("============allUsers", data);
 
   return data?.length > 0 ? (
     data?.map((user: any) => (
