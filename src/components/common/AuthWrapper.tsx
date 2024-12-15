@@ -16,7 +16,7 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
   const pathname = usePathname();
   const dispatch = useDispatch();
   
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, signOut } = useAuth();
 
   const isUserStateLoading = useSelector(
     (state: RootState) => state.user.loading
@@ -37,7 +37,8 @@ const AuthWrapper = ({ userData, children }: MainLayoutPropTypes) => {
         const redirectUrl = workspace_url.startsWith("http")
           ? workspace_url
           : `https://${workspace_url}`;
-
+        // logout the user from the current visited url
+        signOut();
         await router.replace(redirectUrl);
         return;
       }
