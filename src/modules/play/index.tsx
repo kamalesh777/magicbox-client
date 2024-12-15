@@ -9,7 +9,7 @@ const ScratchCard = dynamic(() => import("react-scratchcard-v4"));
 
 const PlayCard = ({ data }: any) => {
   return data?.length > 0 ? (
-    <Grid2 container>
+    <Grid2 container size={12}>
       {data?.map((user: any) => (
         <Grid2 size={3}>
           {
