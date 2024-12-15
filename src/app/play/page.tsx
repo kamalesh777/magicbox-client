@@ -40,7 +40,7 @@ const PlayPage = async () => {
             image={
               "/scratch_foreground.png"
             }
-            finishPercent={80}
+            finishPercent={85}
             onComplete={() => console.log("===complete", user)}
           >
             <div
