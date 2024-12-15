@@ -6,15 +6,24 @@ import React from 'react'
 import ScratchCard from "react-scratchcard-v4";
 
 const PlayPage = async () => {
-  const res = await fetchServerSideData(routesObj["except-me"]);
-  const allUsers = await res.result;
+  let data = []
+  try {
+    const res = await fetchServerSideData(routesObj["except-me"]);
 
-  const handleComplete = () => {
-    console.log("Scratch card completed!");
-  };
+    if (res?.success) {
+      data = await res?.result;
+    } else {
+      data = []
+    }
+  } catch (err) {
+    console.log("=====error in play page", err)
+  }
+  
 
-  return allUsers?.length > 0 ? (
-    allUsers?.map((user: any) => (
+  console.log("============allUsers", data);
+
+  return data?.length > 0 ? (
+    data?.map((user: any) => (
       <Grid2 size={4}>
         {
           <ScratchCard
