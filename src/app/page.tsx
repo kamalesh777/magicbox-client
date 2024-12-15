@@ -11,7 +11,7 @@ const RootPage = () => {
   );
 
   return (
-    isUserStateLoading ? <PageLoader /> : null
+    <PageLoader />
   )
 }
 
