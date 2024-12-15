@@ -3,8 +3,13 @@ import { fetchServerSideData } from '@/utils/fetchServerSideData '
 import { auth } from '@clerk/nextjs/server';
 import { SentimentDissatisfied } from '@mui/icons-material';
 import { Box, Grid2 } from "@mui/material";
+import dynamic from 'next/dynamic';
 import React from 'react'
-import ScratchCard from "react-scratchcard-v4";
+
+
+const ScratchCard = dynamic(() => import("react-scratchcard-v4"));
+
+
 
 const PlayPage = async () => {
   const { userId } = await auth();
@@ -32,7 +37,9 @@ const PlayPage = async () => {
           <ScratchCard
             width={320}
             height={226}
-            image={"/scratch_foreground.png"}
+            image={
+              "/scratch_foreground.png"
+            }
             finishPercent={80}
             onComplete={() => console.log("===complete", user)}
           >
@@ -49,6 +56,7 @@ const PlayPage = async () => {
             </div>
           </ScratchCard>
         }
+        {user.name}
       </Grid2>
     ))
   ) : (
